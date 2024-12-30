@@ -106,19 +106,21 @@ const Index = () => {
         </ol>
       </nav>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pr-[39px]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pr-0">
         {products.map((product) => {
           const cartItem = state.cart.find(item => item.id === product.id);
           const quantity = cartItem?.quantity || 0;
 
           return (
             <div key={product.id} className="bg-white rounded-[20px] p-4 shadow-sm">
-              <div className="flex flex-col items-center mb-3">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-[180px] object-contain mb-4"
-                />
+              <div className="flex flex-col items-center">
+                <div className="w-full h-[90px] flex items-start justify-center mb-6">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-full object-contain"
+                  />
+                </div>
                 <h2 className="text-base text-center font-semibold leading-tight mb-4">
                   {product.name}
                 </h2>
