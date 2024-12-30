@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronRight, X } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -61,9 +61,9 @@ const CategorySidebar = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}
-                className="h-8 w-8"
+                className="p2 h-8 w-8"
               >
-                <X className="h-5 w-5" />
+                <img src="/src/assets/icons/exit_icon.svg" className="h-8 w-8" />
               </Button>
             </div>
           </SheetHeader>
@@ -76,7 +76,7 @@ const CategorySidebar = () => {
   }
 
   return (
-    <div className="hidden lg:block py-6">
+    <div className="hidden lg:block">
       <aside className="w-64 bg-white rounded-xl shadow-sm">
         <div className="p-4">
           <h2 className="text-xl font-bold text-gray-900">Kategorier</h2>

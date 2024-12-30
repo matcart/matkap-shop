@@ -1,6 +1,6 @@
-import React from 'react';
 import { X, Plus, Minus } from 'lucide-react';
 import { useStore } from '@/contexts/StoreContext';
+import { Button } from '../ui/button';
 
 const Cart = () => {
   const { state, dispatch } = useStore();
@@ -15,9 +15,9 @@ const Cart = () => {
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-lg font-semibold">Varukorg</h2>
-            <button onClick={() => dispatch({ type: 'TOGGLE_CART' })}>
-              <X className="w-6 h-6" />
-            </button>
+            <Button variant="ghost" size="icon" className="w-8 h-8" onClick={() => dispatch({ type: 'TOGGLE_CART' })}>
+              <img src="src/assets/icons/exit_icon.svg" className="w-8 h-8" />
+            </Button>
           </div>
 
           <div className="flex-1 overflow-y-auto p-4">
