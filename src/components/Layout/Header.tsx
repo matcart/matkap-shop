@@ -66,7 +66,7 @@ const Header = () => {
                 placeholder="Sök bland tusentals varor"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-10 pl-10 pr-4 rounded-lg bg-[#F5F5F5] focus:outline-none placeholder-[#898E8F] [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-cancel-button]:h-4 [&::-webkit-search-cancel-button]:w-4 [&::-webkit-search-cancel-button]:bg-[#333333] [&::-webkit-search-cancel-button]:cursor-pointer"
+                className="w-full h-10 pl-10 pr-4 rounded-lg bg-[#F5F5F5] focus:outline-none focus:border focus:border-[#222222] placeholder-[#898E8F] [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-cancel-button]:h-4 [&::-webkit-search-cancel-button]:w-4 [&::-webkit-search-cancel-button]:bg-[#333333] [&::-webkit-search-cancel-button]:cursor-pointer"
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#898E8F]" />
             </form>
