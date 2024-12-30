@@ -2,7 +2,7 @@ import React from 'react';
 import { useStore } from '@/contexts/StoreContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Plus } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 
 const products = [
   {
@@ -106,7 +106,7 @@ const Index = () => {
         </ol>
       </nav>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {products.map((product) => {
           const cartItem = state.cart.find(item => item.id === product.id);
           const quantity = cartItem?.quantity || 0;
@@ -117,29 +117,29 @@ const Index = () => {
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-[200px] object-contain mb-6"
+                  className="w-full h-[180px] object-contain mb-4"
                 />
-                <h2 className="text-xl text-center font-medium leading-tight mb-2">
+                <h2 className="text-base text-center font-medium leading-tight mb-2">
                   {product.name}
                 </h2>
-                <div className="text-sm text-center mb-1 bg-gray-100 rounded-full px-4 py-1">
+                <div className="text-xs text-center mb-1 bg-gray-100 rounded-full px-4 py-1">
                   {product.volume}
                 </div>
-                <div className="text-base font-medium mb-1">
+                <div className="text-sm font-medium mb-1">
                   {product.brand}
                 </div>
-                <div className="text-sm text-gray-600 mb-4">
+                <div className="text-xs text-gray-600 mb-4">
                   {product.pricePerUnit}
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold">
+                <div className="text-lg font-bold">
                   {product.price.toFixed(2)} kr
                 </div>
                 
                 {quantity > 0 ? (
-                  <div className="flex items-center gap-3 bg-gray-100 rounded-full px-4 py-2">
+                  <div className="flex items-center gap-3 bg-gray-100 rounded-full px-4 py-2 h-[40px]">
                     <button
                       onClick={() => dispatch({
                         type: 'UPDATE_QUANTITY',
@@ -147,7 +147,7 @@ const Index = () => {
                       })}
                       className="text-gray-900 hover:text-gray-700"
                     >
-                      <Plus className="w-4 h-4 rotate-45" />
+                      <Minus className="w-4 h-4" />
                     </button>
                     <span className="text-gray-900 min-w-[20px] text-center">
                       {quantity}
@@ -168,9 +168,9 @@ const Index = () => {
                       type: 'ADD_TO_CART',
                       payload: product
                     })}
-                    className="w-16 h-16 flex items-center justify-center bg-ica-red text-white rounded-full hover:bg-red-700 transition-colors"
+                    className="w-[40px] h-[40px] flex items-center justify-center bg-ica-red text-white rounded-full hover:bg-red-700 transition-colors"
                   >
-                    <Plus className="w-8 h-8" />
+                    <Plus className="w-6 h-6" />
                   </button>
                 )}
               </div>
