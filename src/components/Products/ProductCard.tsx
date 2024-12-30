@@ -18,6 +18,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const cartItem = state.cart.find(item => item.id === product.id);
   const quantity = cartItem?.quantity || 0;
 
+  const handleAddToCart = () => {
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: { ...product, quantity: 0 } // Add quantity property when dispatching
+    });
+  };
+
   return (
     <div className="bg-white rounded-[20px] p-4 shadow-sm h-[340px] flex flex-col">
       <div className="flex flex-col items-center">
@@ -62,10 +69,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               {quantity}
             </span>
             <button
-              onClick={() => dispatch({
-                type: 'ADD_TO_CART',
-                payload: product
-              })}
+              onClick={handleAddToCart}
               className="text-gray-900 hover:text-gray-700"
             >
               <Plus className="w-4 h-4" />
@@ -73,10 +77,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </div>
         ) : (
           <button
-            onClick={() => dispatch({
-              type: 'ADD_TO_CART',
-              payload: product
-            })}
+            onClick={handleAddToCart}
             className="w-[32px] h-[32px] flex items-center justify-center bg-ica-red text-white rounded-full hover:bg-red-700 transition-colors"
           >
             <Plus className="w-5 h-5" />
