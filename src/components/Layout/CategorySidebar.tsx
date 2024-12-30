@@ -54,7 +54,7 @@ const CategorySidebar = () => {
                 ) : null}
                 <span className="text-sm font-medium text-gray-900">{category.name}</span>
               </div>
-              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 mr-0" />
+              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 -mr-1" />
             </button>
           </li>
         ))}
