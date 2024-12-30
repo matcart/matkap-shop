@@ -12,7 +12,7 @@ const products = [
     volume: '1,5 liter',
     brand: 'Arla',
     pricePerUnit: '13,93kr/l',
-    image: '/placeholder.svg',
+    image: '/assets/images/milk1.png',
     countryFlag: '🇸🇪',
     quantity: 0,
   },
@@ -23,7 +23,7 @@ const products = [
     volume: '1,5 liter',
     brand: 'ICA',
     pricePerUnit: '14,60kr/l',
-    image: '/placeholder.svg',
+    image: '/assets/images/milk2.png',
     countryFlag: '🇸🇪',
     quantity: 0,
   },
@@ -34,7 +34,7 @@ const products = [
     volume: '1,5 liter',
     brand: 'Arla',
     pricePerUnit: '16,60kr/l',
-    image: '/placeholder.svg',
+    image: '/assets/images/milk3.png',
     countryFlag: '🇸🇪',
     quantity: 0,
   },
@@ -45,7 +45,7 @@ const products = [
     volume: '1,5 liter',
     brand: 'Arla',
     pricePerUnit: '15,93kr/l',
-    image: '/placeholder.svg',
+    image: '/assets/images/milk4.png',
     countryFlag: '🇸🇪',
     quantity: 0,
   },
@@ -53,7 +53,9 @@ const products = [
 
 const Index = () => {
   const { state, dispatch } = useStore();
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
+    'dairy'
+  ); // Set to dairy by default to show products
 
   const { data: stores } = useQuery({
     queryKey: ['stores'],
@@ -98,7 +100,7 @@ const Index = () => {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-4">
       <nav className="text-sm mb-6 text-gray-600">
         <ol className="flex items-center gap-2">
           <li>Kategorier</li>
@@ -117,7 +119,9 @@ const Index = () => {
           return (
             <div key={product.id} className="bg-white rounded-lg p-4 shadow-sm">
               <div className="relative mb-4">
-                <span className="absolute top-0 left-0 text-lg">{product.countryFlag}</span>
+                <span className="absolute top-2 left-2 text-lg">
+                  {product.countryFlag}
+                </span>
                 <img
                   src={product.image}
                   alt={product.name}
@@ -125,14 +129,18 @@ const Index = () => {
                 />
               </div>
               
-              <h2 className="text-gray-900 font-medium mb-1">{product.name}</h2>
+              <h2 className="text-gray-900 font-medium mb-1 min-h-[48px]">
+                {product.name}
+              </h2>
               <div className="text-sm text-gray-500 mb-1">{product.volume}</div>
               <div className="text-sm text-gray-500 mb-3">
                 {product.brand} • {product.pricePerUnit}
               </div>
 
               <div className="flex items-center justify-between">
-                <div className="text-gray-900 font-semibold">{product.price} kr</div>
+                <div className="text-gray-900 font-semibold">
+                  {product.price.toFixed(2)} kr
+                </div>
                 
                 {quantity > 0 ? (
                   <div className="flex items-center gap-3 bg-gray-100 rounded-full px-4 py-2">
@@ -145,9 +153,14 @@ const Index = () => {
                     >
                       <Plus className="w-4 h-4 rotate-45" />
                     </button>
-                    <span className="text-gray-900 min-w-[20px] text-center">{quantity}</span>
+                    <span className="text-gray-900 min-w-[20px] text-center">
+                      {quantity}
+                    </span>
                     <button
-                      onClick={() => dispatch({ type: 'ADD_TO_CART', payload: product })}
+                      onClick={() => dispatch({
+                        type: 'ADD_TO_CART',
+                        payload: product
+                      })}
                       className="text-gray-900 hover:text-gray-700"
                     >
                       <Plus className="w-4 h-4" />
@@ -155,7 +168,10 @@ const Index = () => {
                   </div>
                 ) : (
                   <button
-                    onClick={() => dispatch({ type: 'ADD_TO_CART', payload: product })}
+                    onClick={() => dispatch({
+                      type: 'ADD_TO_CART',
+                      payload: product
+                    })}
                     className="w-8 h-8 flex items-center justify-center bg-ica-red text-white rounded-full hover:bg-red-700 transition-colors"
                   >
                     <Plus className="w-4 h-4" />
