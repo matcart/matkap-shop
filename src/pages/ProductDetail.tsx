@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { useStore } from '@/contexts/StoreContext';
@@ -53,6 +53,7 @@ const products = [
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { state, dispatch } = useStore();
   const product = products.find(p => p.id === id);
   const cartItem = state.cart.find(item => item?.id === product?.id);
@@ -69,16 +70,20 @@ const ProductDetail = () => {
     });
   };
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="mx-auto px-[39px] pb-12">
       <nav className="text-sm mb-6 text-gray-600">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/" className="flex items-center gap-2 font-medium">
+              <button onClick={handleBack} className="flex items-center gap-2 font-medium">
                 <ChevronLeft className="w-4 h-4" />
                 Tillbaka
-              </BreadcrumbLink>
+              </button>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
