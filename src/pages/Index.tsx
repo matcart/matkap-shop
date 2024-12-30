@@ -1,5 +1,7 @@
 import React from 'react';
 import { useStore } from '@/contexts/StoreContext';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 const products = [
   {
@@ -32,20 +34,40 @@ const Index = () => {
   const { dispatch } = useStore();
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
 
+  const { data: store } = useQuery({
+    queryKey: ['store'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('stores')
+        .select('name')
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
   if (!selectedCategory) {
     return (
       <div className="container mx-auto px-5 lg:px-[100px] py-8">
-        <div className="bg-white rounded-xl overflow-hidden shadow-sm">
-          <div className="aspect-[16/9] relative">
-            <img 
-              src="/lovable-uploads/6cc50ab0-8071-475a-8dcb-eb3b26595e59.png"
-              alt="Welcome" 
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-              <h1 className="text-4xl font-bold mb-2">
-                Välkommen till ICA Nära Sundbyberg
+        <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
+          <div className="flex flex-col md:flex-row h-[400px]">
+            {/* Left side - Image */}
+            <div className="w-full md:w-1/2 h-48 md:h-full relative">
+              <img 
+                src="/lovable-uploads/535da601-4550-4dd2-bfaf-fe9f8269406f.png"
+                alt="Welcome" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            
+            {/* Right side - Text */}
+            <div className="w-full md:w-1/2 bg-white p-8 flex flex-col justify-center items-center text-center">
+              <h2 className="text-ica-red text-2xl md:text-3xl font-medium mb-2">
+                Välkommen till
+              </h2>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+                {store?.name || 'ICA Nära'}
               </h1>
             </div>
           </div>
