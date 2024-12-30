@@ -3,6 +3,7 @@ import { ChevronRight, X } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useStore } from '@/contexts/StoreContext';
 
 const categories = [
   { id: 'erbjudanden', name: 'Erbjudanden' },
@@ -17,18 +18,16 @@ const categories = [
   { id: 'hushall', name: 'Hushåll' },
 ];
 
-interface CategorySidebarProps {
-  isOpen?: boolean;
-  onClose?: () => void;
-}
-
-const CategorySidebar = ({ isOpen, onClose }: CategorySidebarProps) => {
+const CategorySidebar = () => {
   const isMobile = useIsMobile();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const { state, dispatch } = useStore();
 
   const handleCategoryClick = (categoryId: string) => {
     setSelectedCategory(categoryId);
-    // Add your navigation logic here
+    if (isMobile) {
+      dispatch({ type: 'TOGGLE_SIDEBAR' });
+    }
   };
 
   const CategoryList = () => (
@@ -38,7 +37,7 @@ const CategorySidebar = ({ isOpen, onClose }: CategorySidebarProps) => {
           <li key={category.id}>
             <button
               onClick={() => handleCategoryClick(category.id)}
-              className={`w-full text-left px-4 py-3 flex items-center justify-between group border-b border-gray-100
+              className={`w-full text-left px-4 py-3 flex items-center justify-between group
                 ${selectedCategory === category.id ? 'bg-gray-50' : 'hover:bg-gray-50'}
                 transition-colors duration-200`}
             >
@@ -53,15 +52,15 @@ const CategorySidebar = ({ isOpen, onClose }: CategorySidebarProps) => {
 
   if (isMobile) {
     return (
-      <Sheet open={isOpen} onOpenChange={onClose}>
+      <Sheet open={state.isSidebarOpen} onOpenChange={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}>
         <SheetContent side="left" className="w-full sm:w-[380px] p-0 bg-white">
           <SheetHeader className="p-4 border-b border-gray-100">
             <div className="flex items-center justify-between">
-              <SheetTitle className="text-2xl font-bold">Kategorier</SheetTitle>
+              <SheetTitle className="text-xl font-bold">Kategorier</SheetTitle>
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={onClose}
+                onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}
                 className="h-8 w-8"
               >
                 <X className="h-5 w-5" />
@@ -78,7 +77,7 @@ const CategorySidebar = ({ isOpen, onClose }: CategorySidebarProps) => {
 
   return (
     <div className="hidden lg:block px-[100px] py-6">
-      <aside className="w-64 bg-white border border-gray-200 rounded-xl shadow-sm">
+      <aside className="w-64 bg-white rounded-xl shadow-sm">
         <div className="p-4 border-b border-gray-100">
           <h2 className="text-xl font-bold text-gray-900">Kategorier</h2>
         </div>

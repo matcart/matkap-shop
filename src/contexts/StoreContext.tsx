@@ -1,36 +1,33 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 
-interface CartItem {
+interface Product {
   id: string;
   name: string;
   price: number;
-  quantity: number;
   image?: string;
+  description?: string;
+  quantity: number;
 }
 
-interface StoreState {
-  cart: CartItem[];
+interface State {
+  cart: Product[];
   isCartOpen: boolean;
+  isSidebarOpen: boolean;
 }
 
-type StoreAction =
-  | { type: 'ADD_TO_CART'; payload: CartItem }
-  | { type: 'REMOVE_FROM_CART'; payload: string }
+type Action =
+  | { type: 'ADD_TO_CART'; payload: Product }
   | { type: 'UPDATE_QUANTITY'; payload: { id: string; quantity: number } }
   | { type: 'TOGGLE_CART' }
-  | { type: 'CLEAR_CART' };
+  | { type: 'TOGGLE_SIDEBAR' };
 
-const initialState: StoreState = {
+const initialState: State = {
   cart: [],
   isCartOpen: false,
+  isSidebarOpen: false,
 };
 
-const StoreContext = createContext<{
-  state: StoreState;
-  dispatch: React.Dispatch<StoreAction>;
-} | null>(null);
-
-const storeReducer = (state: StoreState, action: StoreAction): StoreState => {
+const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'ADD_TO_CART': {
       const existingItem = state.cart.find(item => item.id === action.payload.id);
@@ -49,12 +46,13 @@ const storeReducer = (state: StoreState, action: StoreAction): StoreState => {
         cart: [...state.cart, { ...action.payload, quantity: 1 }],
       };
     }
-    case 'REMOVE_FROM_CART':
-      return {
-        ...state,
-        cart: state.cart.filter(item => item.id !== action.payload),
-      };
     case 'UPDATE_QUANTITY':
+      if (action.payload.quantity === 0) {
+        return {
+          ...state,
+          cart: state.cart.filter(item => item.id !== action.payload.id),
+        };
+      }
       return {
         ...state,
         cart: state.cart.map(item =>
@@ -68,32 +66,23 @@ const storeReducer = (state: StoreState, action: StoreAction): StoreState => {
         ...state,
         isCartOpen: !state.isCartOpen,
       };
-    case 'CLEAR_CART':
+    case 'TOGGLE_SIDEBAR':
       return {
         ...state,
-        cart: [],
+        isSidebarOpen: !state.isSidebarOpen,
       };
     default:
       return state;
   }
 };
 
-export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [state, dispatch] = useReducer(storeReducer, initialState);
+const StoreContext = createContext<{
+  state: State;
+  dispatch: React.Dispatch<Action>;
+} | null>(null);
 
-  useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      const parsedCart = JSON.parse(savedCart);
-      parsedCart.forEach((item: CartItem) => {
-        dispatch({ type: 'ADD_TO_CART', payload: item });
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(state.cart));
-  }, [state.cart]);
+export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <StoreContext.Provider value={{ state, dispatch }}>

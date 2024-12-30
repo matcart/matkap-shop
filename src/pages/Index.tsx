@@ -1,6 +1,5 @@
 import React from 'react';
 import { useStore } from '@/contexts/StoreContext';
-import { Search } from 'lucide-react';
 
 const products = [
   {
@@ -35,21 +34,28 @@ const Index = () => {
 
   if (!selectedCategory) {
     return (
-      <div className="container mx-auto px-4 py-8 text-center">
-        <img 
-          src="/placeholder.svg" 
-          alt="Welcome" 
-          className="mx-auto mb-6 max-w-md"
-        />
-        <h1 className="text-3xl font-bold text-gray-800">
-          Välkommen till ICA Nära Sundbyberg
-        </h1>
+      <div className="container mx-auto px-5 lg:px-[100px] py-8">
+        <div className="bg-white rounded-xl overflow-hidden shadow-sm">
+          <div className="aspect-[16/9] relative">
+            <img 
+              src="/lovable-uploads/6cc50ab0-8071-475a-8dcb-eb3b26595e59.png"
+              alt="Welcome" 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+              <h1 className="text-4xl font-bold mb-2">
+                Välkommen till ICA Nära Sundbyberg
+              </h1>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-gray-50">
+    <div className="container mx-auto px-5 lg:px-[100px] py-8">
       <h1 className="text-2xl font-bold mb-6">Populära produkter</h1>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         {products.map((product) => (
