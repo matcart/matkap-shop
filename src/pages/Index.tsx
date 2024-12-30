@@ -2,36 +2,57 @@ import React from 'react';
 import { useStore } from '@/contexts/StoreContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { Plus, Minus } from 'lucide-react';
 
 const products = [
   {
     id: '1',
     name: 'Mellanmjölk Färsk',
-    price: 20.90,
+    price: 19.90,
+    volume: '1,5 liter',
+    brand: 'Arla',
+    pricePerUnit: '13,93kr/l',
     image: '/placeholder.svg',
-    description: 'Färsk mellanmjölk från Arla',
-    quantity: 0, // Added quantity field
+    countryFlag: '🇸🇪',
+    quantity: 0,
   },
   {
     id: '2',
-    name: 'Smör & Raps',
-    price: 52.00,
+    name: 'Mellanmjölk Längre Hållbarhet',
+    price: 19.90,
+    volume: '1,5 liter',
+    brand: 'ICA',
+    pricePerUnit: '14,60kr/l',
     image: '/placeholder.svg',
-    description: 'Normalsaltat 75%',
+    countryFlag: '🇸🇪',
     quantity: 0,
   },
   {
     id: '3',
-    name: 'Färska Jordgubbar',
-    price: 69.90,
+    name: 'Mellanmjölk Färsk Ekologisk',
+    price: 24.90,
+    volume: '1,5 liter',
+    brand: 'Arla',
+    pricePerUnit: '16,60kr/l',
     image: '/placeholder.svg',
-    description: 'Svenska jordgubbar, 400g',
+    countryFlag: '🇸🇪',
+    quantity: 0,
+  },
+  {
+    id: '4',
+    name: 'Standardmjölk Färsk',
+    price: 23.90,
+    volume: '1,5 liter',
+    brand: 'Arla',
+    pricePerUnit: '15,93kr/l',
+    image: '/placeholder.svg',
+    countryFlag: '🇸🇪',
     quantity: 0,
   },
 ];
 
 const Index = () => {
-  const { dispatch } = useStore();
+  const { state, dispatch } = useStore();
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
 
   const { data: store } = useQuery({
@@ -75,41 +96,70 @@ const Index = () => {
   }
 
   return (
-    <div className="container mx-auto px-5 lg:px-[100px] py-8">
-      <h1 className="text-2xl font-bold mb-6">Populära produkter</h1>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-        {products.map((product) => (
-          <div key={product.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full aspect-square object-cover rounded-xl mb-4"
-            />
-            <h2 className="text-lg font-semibold mb-2">{product.name}</h2>
-            <p className="text-gray-600 mb-4 text-sm">{product.description}</p>
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-bold">{product.price} kr</span>
-              <button
-                onClick={() => dispatch({ type: 'ADD_TO_CART', payload: product })}
-                className="bg-ica-red text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors"
-              >
-                <span className="sr-only">Lägg i varukorg</span>
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 5v14M5 12h14" />
-                </svg>
-              </button>
+    <div className="container mx-auto">
+      <nav className="text-sm mb-6 text-gray-600">
+        <ol className="flex items-center gap-2">
+          <li>Kategorier</li>
+          <li>/</li>
+          <li>Mejeri & Ost</li>
+          <li>/</li>
+          <li className="text-gray-900">Allt inom Mejeri & Ost</li>
+        </ol>
+      </nav>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {products.map((product) => {
+          const cartItem = state.cart.find(item => item.id === product.id);
+          const quantity = cartItem?.quantity || 0;
+
+          return (
+            <div key={product.id} className="bg-white rounded-lg p-4 shadow-sm">
+              <div className="relative mb-4">
+                <span className="absolute top-0 left-0 text-lg">{product.countryFlag}</span>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full aspect-square object-contain"
+                />
+              </div>
+              
+              <h2 className="text-gray-900 font-medium mb-1">{product.name}</h2>
+              <div className="text-sm text-gray-500 mb-1">{product.volume}</div>
+              <div className="text-sm text-gray-500 mb-3">
+                {product.brand} • {product.pricePerUnit}
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="text-gray-900 font-semibold">{product.price} kr</div>
+                
+                {quantity > 0 ? (
+                  <div className="flex items-center gap-3 bg-gray-100 rounded-full px-4 py-2">
+                    <button
+                      onClick={() => dispatch({ type: 'REMOVE_FROM_CART', payload: product })}
+                      className="text-gray-900 hover:text-gray-700"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="text-gray-900 min-w-[20px] text-center">{quantity}</span>
+                    <button
+                      onClick={() => dispatch({ type: 'ADD_TO_CART', payload: product })}
+                      className="text-gray-900 hover:text-gray-700"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => dispatch({ type: 'ADD_TO_CART', payload: product })}
+                    className="w-8 h-8 flex items-center justify-center bg-ica-red text-white rounded-full hover:bg-red-700 transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
