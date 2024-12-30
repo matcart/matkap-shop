@@ -60,14 +60,14 @@ const Index = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('stores')
-        .select('name')
-        .limit(1);  // We'll just get the first store for now
+        .select('name');
 
       if (error) throw error;
       return data;
     },
   });
 
+  // Get the first store name or use default
   const storeName = stores?.[0]?.name || 'ICA Nära Laduvägen';
 
   if (!selectedCategory) {
