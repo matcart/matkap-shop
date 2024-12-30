@@ -32,16 +32,16 @@ const CategorySidebar = () => {
 
   const CategoryList = () => (
     <nav className="h-full">
-      <ul className="space-y-1">
+      <ul>
         {categories.map((category) => (
           <li key={category.id}>
             <button
               onClick={() => handleCategoryClick(category.id)}
-              className={`w-full text-left px-4 py-3 flex items-center justify-between group
+              className={`w-full border-t-[1px] text-left px-4 py-[18px] flex items-center justify-between group
                 ${selectedCategory === category.id ? 'bg-gray-50' : 'hover:bg-gray-50'}
                 transition-colors duration-200`}
             >
-              <span className="text-base font-medium text-gray-900">{category.name}</span>
+              <span className="text-sm font-medium text-gray-900">{category.name}</span>
               <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600" />
             </button>
           </li>
@@ -79,7 +79,7 @@ const CategorySidebar = () => {
     <div className="hidden lg:block">
       <aside className="w-64 bg-white rounded-xl shadow-sm">
         <div className="p-4">
-          <h2 className="text-xl font-bold text-gray-900">Kategorier</h2>
+          <h2 className="text-xl font-semibold text-gray-900">Kategorier</h2>
         </div>
         <div className="overflow-y-auto max-h-[calc(100vh-12rem)]">
           <CategoryList />

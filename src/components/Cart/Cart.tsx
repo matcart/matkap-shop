@@ -67,7 +67,7 @@ const Cart = () => {
               <span className="font-semibold">{total.toFixed(2)} kr</span>
             </div>
             <button
-              className="w-full bg-ica-red text-white py-3 rounded-lg font-medium hover:bg-red-700 transition-colors"
+              className="w-full bg-ica-red text-white text-sm font-semibold py-3 rounded-full hover:bg-red-700 transition-colors"
               onClick={() => console.log('Proceed to checkout')}
             >
               Gå till kassan
