@@ -29,7 +29,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <Link to={`/product/${product.id}`} className="block">
-      <div className="bg-white rounded-[20px] p-4 shadow-sm h-[320px] flex flex-col transition-transform hover:scale-[1.02]">
+      <div className="bg-white rounded-[20px] p-4 shadow-sm h-[320px] flex flex-col">
         <div className="flex flex-col items-center">
           <div className="w-full h-[90px] flex items-start justify-center mb-6">
             <img

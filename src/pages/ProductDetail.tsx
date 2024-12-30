@@ -71,7 +71,7 @@ const ProductDetail = () => {
 
   return (
     <div className="mx-auto px-[39px] pb-12">
-      <nav className="text-sm mb-8 text-gray-600">
+      <nav className="text-sm mb-6 text-gray-600">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -95,12 +95,12 @@ const ProductDetail = () => {
           </div>
           
           <div className="flex flex-col">
-            <h1 className="text-2xl font-semibold mb-2">{product.name}</h1>
+            <h1 className="text-2xl font-semibold mb-6">{product.name}</h1>
             <div className="text-sm bg-gray-100 rounded-full px-3 py-1 w-fit mb-2">
               {product.volume}
             </div>
             <div className="text-base mb-1">{product.brand}</div>
-            <div className="text-sm text-gray-600 mb-6">{product.pricePerUnit}</div>
+            <div className="text-sm text-gray-600 mb-12">{product.pricePerUnit}</div>
             
             <div className="text-2xl font-semibold mb-6">
               {product.price.toFixed(2)} kr
@@ -144,7 +144,7 @@ const ProductDetail = () => {
       <div className="bg-white rounded-[20px] p-8 shadow-sm">
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="description">
-            <AccordionTrigger className="text-lg font-semibold hover:no-underline">
+            <AccordionTrigger className="text-base font-semibold hover:no-underline">
               Produktinformation
             </AccordionTrigger>
             <AccordionContent>
@@ -153,7 +153,7 @@ const ProductDetail = () => {
           </AccordionItem>
 
           <AccordionItem value="origin">
-            <AccordionTrigger className="text-lg font-semibold hover:no-underline">
+            <AccordionTrigger className="text-base font-semibold hover:no-underline">
               Ursprungsland
             </AccordionTrigger>
             <AccordionContent>
@@ -162,7 +162,7 @@ const ProductDetail = () => {
           </AccordionItem>
 
           <AccordionItem value="brand">
-            <AccordionTrigger className="text-lg font-semibold hover:no-underline">
+            <AccordionTrigger className="text-base font-semibold hover:no-underline">
               Varumärke
             </AccordionTrigger>
             <AccordionContent>
@@ -171,7 +171,7 @@ const ProductDetail = () => {
           </AccordionItem>
 
           <AccordionItem value="ingredients">
-            <AccordionTrigger className="text-lg font-semibold hover:no-underline">
+            <AccordionTrigger className="text-base font-semibold hover:no-underline">
               Ingredienser
             </AccordionTrigger>
             <AccordionContent>
