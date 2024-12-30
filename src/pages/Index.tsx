@@ -13,7 +13,6 @@ const products = [
     brand: 'Arla',
     pricePerUnit: '13,93kr/l',
     image: '/assets/images/milk1.png',
-    countryFlag: '🇸🇪',
     quantity: 0,
   },
   {
@@ -24,7 +23,6 @@ const products = [
     brand: 'ICA',
     pricePerUnit: '14,60kr/l',
     image: '/assets/images/milk2.png',
-    countryFlag: '🇸🇪',
     quantity: 0,
   },
   {
@@ -35,7 +33,6 @@ const products = [
     brand: 'Arla',
     pricePerUnit: '16,60kr/l',
     image: '/assets/images/milk3.png',
-    countryFlag: '🇸🇪',
     quantity: 0,
   },
   {
@@ -46,7 +43,6 @@ const products = [
     brand: 'Arla',
     pricePerUnit: '15,93kr/l',
     image: '/assets/images/milk4.png',
-    countryFlag: '🇸🇪',
     quantity: 0,
   },
 ];
@@ -55,7 +51,7 @@ const Index = () => {
   const { state, dispatch } = useStore();
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
     'dairy'
-  ); // Set to dairy by default to show products
+  );
 
   const { data: stores } = useQuery({
     queryKey: ['stores'],
@@ -69,7 +65,6 @@ const Index = () => {
     },
   });
 
-  // Get the first store name or use default
   const storeName = stores?.[0]?.name || 'ICA Nära Laduvägen';
 
   if (!selectedCategory) {
@@ -100,8 +95,8 @@ const Index = () => {
   }
 
   return (
-    <div className="container mx-auto px-4">
-      <nav className="text-sm mb-6 text-gray-600">
+    <div className="mx-auto px-[39px]">
+      <nav className="text-sm mb-8 text-gray-600">
         <ol className="flex items-center gap-2">
           <li>Kategorier</li>
           <li>/</li>
@@ -111,34 +106,35 @@ const Index = () => {
         </ol>
       </nav>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {products.map((product) => {
           const cartItem = state.cart.find(item => item.id === product.id);
           const quantity = cartItem?.quantity || 0;
 
           return (
-            <div key={product.id} className="bg-white rounded-lg p-4 shadow-sm">
-              <div className="relative mb-4">
-                <span className="absolute top-2 left-2 text-lg">
-                  {product.countryFlag}
-                </span>
+            <div key={product.id} className="bg-white rounded-[20px] p-6 shadow-sm">
+              <div className="flex flex-col items-center mb-4">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full aspect-square object-contain"
+                  className="w-full h-[200px] object-contain mb-6"
                 />
-              </div>
-              
-              <h2 className="text-gray-900 font-medium mb-1 min-h-[48px]">
-                {product.name}
-              </h2>
-              <div className="text-sm text-gray-500 mb-1">{product.volume}</div>
-              <div className="text-sm text-gray-500 mb-3">
-                {product.brand} • {product.pricePerUnit}
+                <h2 className="text-[32px] text-center font-medium leading-tight mb-2">
+                  {product.name}
+                </h2>
+                <div className="text-lg text-center mb-1 bg-gray-100 rounded-full px-4 py-1">
+                  {product.volume}
+                </div>
+                <div className="text-xl font-medium mb-1">
+                  {product.brand}
+                </div>
+                <div className="text-lg text-gray-600 mb-4">
+                  {product.pricePerUnit}
+                </div>
               </div>
 
               <div className="flex items-center justify-between">
-                <div className="text-gray-900 font-semibold">
+                <div className="text-[32px] font-bold">
                   {product.price.toFixed(2)} kr
                 </div>
                 
@@ -172,9 +168,9 @@ const Index = () => {
                       type: 'ADD_TO_CART',
                       payload: product
                     })}
-                    className="w-8 h-8 flex items-center justify-center bg-ica-red text-white rounded-full hover:bg-red-700 transition-colors"
+                    className="w-16 h-16 flex items-center justify-center bg-ica-red text-white rounded-full hover:bg-red-700 transition-colors"
                   >
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-8 h-8" />
                   </button>
                 )}
               </div>
