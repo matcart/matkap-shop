@@ -2,7 +2,7 @@ import React from 'react';
 import { useStore } from '@/contexts/StoreContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Plus, Minus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 const products = [
   {
@@ -55,18 +55,20 @@ const Index = () => {
   const { state, dispatch } = useStore();
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
 
-  const { data: store } = useQuery({
-    queryKey: ['store'],
+  const { data: stores } = useQuery({
+    queryKey: ['stores'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('stores')
         .select('name')
-        .single();
+        .limit(1);  // We'll just get the first store for now
 
       if (error) throw error;
       return data;
     },
   });
+
+  const storeName = stores?.[0]?.name || 'ICA Nära Laduvägen';
 
   if (!selectedCategory) {
     return (
@@ -86,7 +88,7 @@ const Index = () => {
                 Välkommen till
               </h2>
               <h1 className="text-[25px] font-semibold text-gray-900">
-                {store?.name || 'ICA Nära Laduvägen'}
+                {storeName}
               </h1>
             </div>
           </div>
@@ -135,10 +137,13 @@ const Index = () => {
                 {quantity > 0 ? (
                   <div className="flex items-center gap-3 bg-gray-100 rounded-full px-4 py-2">
                     <button
-                      onClick={() => dispatch({ type: 'REMOVE_FROM_CART', payload: product })}
+                      onClick={() => dispatch({
+                        type: 'UPDATE_QUANTITY',
+                        payload: { id: product.id, quantity: Math.max(0, quantity - 1) }
+                      })}
                       className="text-gray-900 hover:text-gray-700"
                     >
-                      <Minus className="w-4 h-4" />
+                      <Plus className="w-4 h-4 rotate-45" />
                     </button>
                     <span className="text-gray-900 min-w-[20px] text-center">{quantity}</span>
                     <button
