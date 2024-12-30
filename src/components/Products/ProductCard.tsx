@@ -55,7 +55,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
         
         {quantity > 0 ? (
-          <div className="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-1.5 h-[32px]">
+          <div className="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-1.5 h-[36px]">
             <button
               onClick={() => dispatch({
                 type: 'UPDATE_QUANTITY',
@@ -78,7 +78,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         ) : (
           <button
             onClick={handleAddToCart}
-            className="w-[32px] h-[32px] flex items-center justify-center bg-ica-red text-white rounded-full hover:bg-red-700 transition-colors"
+            className="w-[36px] h-[36px] flex items-center justify-center bg-ica-red text-white rounded-full hover:bg-red-700 transition-colors"
           >
             <Plus className="w-5 h-5" />
           </button>
