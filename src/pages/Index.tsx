@@ -12,7 +12,7 @@ const products = [
     volume: '1,5 liter',
     brand: 'Arla',
     pricePerUnit: '13,93kr/l',
-    image: '/assets/images/milk1.png',
+    image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
     quantity: 0,
   },
   {
@@ -22,7 +22,7 @@ const products = [
     volume: '1,5 liter',
     brand: 'ICA',
     pricePerUnit: '14,60kr/l',
-    image: '/assets/images/milk2.png',
+    image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
     quantity: 0,
   },
   {
@@ -32,7 +32,7 @@ const products = [
     volume: '1,5 liter',
     brand: 'Arla',
     pricePerUnit: '16,60kr/l',
-    image: '/assets/images/milk3.png',
+    image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
     quantity: 0,
   },
   {
@@ -42,7 +42,7 @@ const products = [
     volume: '1,5 liter',
     brand: 'Arla',
     pricePerUnit: '15,93kr/l',
-    image: '/assets/images/milk4.png',
+    image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
     quantity: 0,
   },
 ];
@@ -102,30 +102,30 @@ const Index = () => {
           <li>/</li>
           <li>Mejeri & Ost</li>
           <li>/</li>
-          <li className="text-gray-900">Allt inom Mejeri & Ost</li>
+          <li className="font-semibold text-gray-900">Allt inom Mejeri & Ost</li>
         </ol>
       </nav>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pr-[39px]">
         {products.map((product) => {
           const cartItem = state.cart.find(item => item.id === product.id);
           const quantity = cartItem?.quantity || 0;
 
           return (
-            <div key={product.id} className="bg-white rounded-[20px] p-6 shadow-sm">
-              <div className="flex flex-col items-center mb-4">
+            <div key={product.id} className="bg-white rounded-[20px] p-4 shadow-sm">
+              <div className="flex flex-col items-center mb-3">
                 <img
                   src={product.image}
                   alt={product.name}
                   className="w-full h-[180px] object-contain mb-4"
                 />
-                <h2 className="text-base text-center font-medium leading-tight mb-2">
+                <h2 className="text-base text-center font-semibold leading-tight mb-4">
                   {product.name}
                 </h2>
-                <div className="text-xs text-center mb-1 bg-gray-100 rounded-full px-4 py-1">
+                <div className="text-xs text-center mb-1 bg-gray-100 rounded-full px-2 py-1">
                   {product.volume}
                 </div>
-                <div className="text-sm font-medium mb-1">
+                <div className="text-sm font-medium mb-0.5">
                   {product.brand}
                 </div>
                 <div className="text-xs text-gray-600 mb-4">
@@ -134,12 +134,12 @@ const Index = () => {
               </div>
 
               <div className="flex items-center justify-between">
-                <div className="text-lg font-bold">
+                <div className="text-base font-semibold">
                   {product.price.toFixed(2)} kr
                 </div>
                 
                 {quantity > 0 ? (
-                  <div className="flex items-center gap-3 bg-gray-100 rounded-full px-4 py-2 h-[40px]">
+                  <div className="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-1.5 h-[36px]">
                     <button
                       onClick={() => dispatch({
                         type: 'UPDATE_QUANTITY',
@@ -168,9 +168,9 @@ const Index = () => {
                       type: 'ADD_TO_CART',
                       payload: product
                     })}
-                    className="w-[40px] h-[40px] flex items-center justify-center bg-ica-red text-white rounded-full hover:bg-red-700 transition-colors"
+                    className="w-[36px] h-[36px] flex items-center justify-center bg-ica-red text-white rounded-full hover:bg-red-700 transition-colors"
                   >
-                    <Plus className="w-6 h-6" />
+                    <Plus className="w-5 h-5" />
                   </button>
                 )}
               </div>
