@@ -1,10 +1,19 @@
 import { Search } from 'lucide-react';
 import { useStore } from '@/contexts/StoreContext';
 import { Button } from '../ui/button';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const Header = () => {
   const { state, dispatch } = useStore();
+  const navigate = useNavigate();
   const cartItemCount = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+  const [searchParams] = useSearchParams();
+
+  const handleLogoClick = () => {
+    if (searchParams.get('category')) {
+      navigate('/');
+    }
+  };
 
   return (
     <header className="sticky lg:px-[100px] px-[20px] top-0 z-50 bg-white">
@@ -19,7 +28,10 @@ const Header = () => {
               <img src="/assets/icons/burger.svg" alt="Menu" />
             </Button>
 
-            <div className="flex items-center gap-4 lg:pl-[5px]">
+            <div 
+              className="flex items-center gap-4 lg:pl-[5px] cursor-pointer" 
+              onClick={handleLogoClick}
+            >
               <img src="/assets/icons/ica_logo.svg" alt="ICA Logo" className="h-[26px]" />
               <span className="text-sm font-semibold">{"ICA Nära Laduvägen"}</span>
             </div>

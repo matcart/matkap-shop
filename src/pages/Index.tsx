@@ -3,6 +3,7 @@ import { useStore } from '@/contexts/StoreContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Plus, Minus } from 'lucide-react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const products = [
   {
@@ -49,9 +50,9 @@ const products = [
 
 const Index = () => {
   const { state, dispatch } = useStore();
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
-    'dairy'
-  );
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get('category');
 
   const { data: stores } = useQuery({
     queryKey: ['stores'],
@@ -67,7 +68,7 @@ const Index = () => {
 
   const storeName = stores?.[0]?.name || 'ICA Nära Laduvägen';
 
-  if (!selectedCategory) {
+  if (!category) {
     return (
       <div>
         <div className="bg-white rounded-2xl overflow-hidden shadow-sm ml-0 lg:ml-[39px]">
@@ -112,7 +113,7 @@ const Index = () => {
           const quantity = cartItem?.quantity || 0;
 
           return (
-            <div key={product.id} className="bg-white rounded-[20px] p-4 shadow-sm">
+            <div key={product.id} className="bg-white rounded-[20px] p-4 shadow-sm h-fit">
               <div className="flex flex-col items-center">
                 <div className="w-full h-[90px] flex items-start justify-center mb-6">
                   <img
