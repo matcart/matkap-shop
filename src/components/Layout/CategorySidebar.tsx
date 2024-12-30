@@ -16,8 +16,8 @@ const categories = [
 
 const CategorySidebar = () => {
   return (
-    <aside className="hidden lg:block w-64 min-h-screen bg-gray-50 border-r border-gray-200">
-      <nav className="p-4">
+    <aside className="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-auto">
+      <nav className="h-full p-4">
         <ul className="space-y-2">
           {categories.map((category) => (
             <li key={category.id}>

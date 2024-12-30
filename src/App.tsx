@@ -16,11 +16,11 @@ const App = () => (
     <TooltipProvider>
       <StoreProvider>
         <BrowserRouter>
-          <div className="min-h-screen flex flex-col">
+          <div className="min-h-screen flex flex-col bg-gray-50">
             <Header />
             <div className="flex-1 flex">
               <CategorySidebar />
-              <main className="flex-1">
+              <main className="flex-1 lg:ml-64">
                 <Routes>
                   <Route path="/" element={<Index />} />
                 </Routes>
