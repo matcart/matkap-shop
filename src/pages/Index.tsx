@@ -119,22 +119,22 @@ const Index = () => {
                   alt={product.name}
                   className="w-full h-[200px] object-contain mb-6"
                 />
-                <h2 className="text-[32px] text-center font-medium leading-tight mb-2">
+                <h2 className="text-xl text-center font-medium leading-tight mb-2">
                   {product.name}
                 </h2>
-                <div className="text-lg text-center mb-1 bg-gray-100 rounded-full px-4 py-1">
+                <div className="text-sm text-center mb-1 bg-gray-100 rounded-full px-4 py-1">
                   {product.volume}
                 </div>
-                <div className="text-xl font-medium mb-1">
+                <div className="text-base font-medium mb-1">
                   {product.brand}
                 </div>
-                <div className="text-lg text-gray-600 mb-4">
+                <div className="text-sm text-gray-600 mb-4">
                   {product.pricePerUnit}
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
-                <div className="text-[32px] font-bold">
+                <div className="text-2xl font-bold">
                   {product.price.toFixed(2)} kr
                 </div>
                 
