@@ -16,11 +16,11 @@ const Header = () => {
               className="lg:hidden p-2 w-8 h-8"
               onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}
             >
-              <img src="src/assets/icons/burger.svg" />
+              <img src="assets/icons/burger.svg" />
             </Button>
 
             <div className="flex items-center gap-4 lg:pl-[5px]">
-              <img src="/src/assets/icons/ica_logo.svg" className="h-[26px]" />
+              <img src="assets/icons/ica_logo.svg" className="h-[26px]" />
               <span className="text-sm font-semibold">{"ICA Nära Laduvägen"}</span>
             </div>
 
@@ -29,7 +29,7 @@ const Header = () => {
               className="p-2 relative"
               onClick={() => dispatch({ type: 'TOGGLE_CART' })}
             >
-              <img src="/src/assets/icons/cart.svg" alt="Cart" className="w-5 h-5" />
+              <img src="assets/icons/cart.svg" alt="Cart" className="w-5 h-5" />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-ica-red text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {cartItemCount}

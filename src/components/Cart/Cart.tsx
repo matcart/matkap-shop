@@ -16,7 +16,7 @@ const Cart = () => {
           <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-lg font-semibold">Varukorg</h2>
             <Button variant="ghost" size="icon" className="w-8 h-8" onClick={() => dispatch({ type: 'TOGGLE_CART' })}>
-              <img src="src/assets/icons/exit_icon.svg" className="w-8 h-8" />
+              <img src="assets/icons/exit_icon.svg" className="w-8 h-8" />
             </Button>
           </div>
 

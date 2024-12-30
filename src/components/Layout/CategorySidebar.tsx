@@ -63,7 +63,7 @@ const CategorySidebar = () => {
                 onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}
                 className="p2 h-8 w-8"
               >
-                <img src="/src/assets/icons/exit_icon.svg" className="h-8 w-8" />
+                <img src="assets/icons/exit_icon.svg" className="h-8 w-8" />
               </Button>
             </div>
           </SheetHeader>

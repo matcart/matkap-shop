@@ -55,7 +55,7 @@ const Index = () => {
             {/* Left side - Image */}
             <div className="w-full md:w-1/2 h-48 md:h-full relative">
               <img
-                src="/src/assets/images/welcome.png"
+                src="assets/images/welcome.png"
                 alt="Welcome"
                 className="w-full h-full object-cover"
               />
