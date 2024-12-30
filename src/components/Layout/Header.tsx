@@ -9,7 +9,6 @@ const Header = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const cartItemCount = state.cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleLogoClick = () => {
@@ -67,18 +66,16 @@ const Header = () => {
                 placeholder="Sök bland tusentals varor"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setIsSearchFocused(true)}
-                onBlur={() => setIsSearchFocused(false)}
                 className="w-full h-10 pl-10 pr-4 rounded-lg bg-[#F5F5F5] focus:outline-none focus:border focus:border-[#222222] placeholder-[#898E8F] [&::-webkit-search-cancel-button]:hidden"
               />
-              <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${isSearchFocused ? 'text-[#222222]' : 'text-[#898E8F]'}`} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#898E8F]" />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
                   className="absolute right-3 top-1/2 -translate-y-1/2"
                 >
-                  <X className="w-4 h-4 text-[#333333]" />
+                  <X className="w-4 h-4 text-[#898E8F]" />
                 </button>
               )}
             </form>

@@ -21,12 +21,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const handleAddToCart = () => {
     dispatch({
       type: 'ADD_TO_CART',
-      payload: { ...product, quantity: 0 } // Add quantity property when dispatching
+      payload: { ...product, quantity: 0 }
     });
   };
 
   return (
-    <div className="bg-white rounded-[20px] p-4 shadow-sm h-[340px] flex flex-col">
+    <div className="bg-white rounded-[20px] p-4 shadow-sm h-[320px] flex flex-col">
       <div className="flex flex-col items-center">
         <div className="w-full h-[90px] flex items-start justify-center mb-6">
           <img
