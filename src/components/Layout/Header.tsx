@@ -24,6 +24,10 @@ const Header = () => {
     }
   };
 
+  const clearSearch = () => {
+    setSearchQuery('');
+  };
+
   return (
     <header className="sticky lg:px-[100px] px-[20px] top-0 z-50 bg-white">
       <div>
@@ -61,23 +65,28 @@ const Header = () => {
 
           <div className="mt-4 lg:mt-0 lg:absolute lg:left-[394px] lg:top-1/2 lg:-translate-y-1/2 lg:w-[376px]">
             <form onSubmit={handleSearch} className="relative">
-              <input
-                type="search"
-                placeholder="Sök bland tusentals varor"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-10 pl-10 pr-10 rounded-lg bg-[#F5F5F5] focus:outline-none focus:border focus:border-[#222222] placeholder-[#898E8F] [&::-webkit-search-cancel-button]:hidden translate-x-0"
-              />
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#898E8F] pointer-events-none" />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
-                >
-                  <X className="w-4 h-4 text-[#898E8F]" />
-                </button>
-              )}
+              <div className="relative">
+                <Search 
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#898E8F]" 
+                  aria-hidden="true"
+                />
+                <input
+                  type="text"
+                  placeholder="Sök bland tusentals varor"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-10 pl-10 pr-10 rounded-lg bg-[#F5F5F5] focus:outline-none focus:border focus:border-[#222222] text-[#222222] placeholder:text-[#898E8F]"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={clearSearch}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#898E8F] hover:text-[#222222]"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
             </form>
           </div>
         </div>
