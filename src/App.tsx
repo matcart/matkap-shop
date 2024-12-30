@@ -8,6 +8,7 @@ import Header from "./components/Layout/Header";
 import CategorySidebar from "./components/Layout/CategorySidebar";
 import Cart from "./components/Cart/Cart";
 import Index from "./pages/Index";
+import ProductDetail from "./pages/ProductDetail";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
               <main className="flex-1">
                 <Routes>
                   <Route path="/" element={<Index />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
                 </Routes>
               </main>
             </div>
