@@ -1,18 +1,21 @@
 import { useParams, Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { ChevronLeft } from 'lucide-react';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import ProductCard from '@/components/Products/ProductCard';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
+import { useStore } from '@/contexts/StoreContext';
+import { Plus, Minus } from "lucide-react";
 
 const products = [
   {
     id: '1',
-    name: 'Mellanmjölk Färsk',
-    price: 19.90,
+    name: 'Mellanmjölk Färsk Ekologisk',
+    price: 20.90,
     volume: '1,5 liter',
     brand: 'Arla',
     pricePerUnit: '13,93kr/l',
     image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
+    description: 'Färsk mellanmjölk från Arla, gjord på svensk mjölk från Arlagårdar nu med ännu bättre djuromsorg hela året runt. Mellanmjölk har en härligt fyllig mjölksmak och är ett populärt val till frukostflingorna, gröten eller som dryck till måltiden. Arla Ko® färsk mellanmjölk är en naturlig källa till bland annat protein, kalcium och vitamin B12. Protein bidrar till muskeluppbyggnad och kalcium behövs för att bibehålla en normal benstomme. Varumärket Arla Ko® garanterar att produkten är gjord på 100 procent svensk mjölk.',
+    countryOfOrigin: 'Sverige',
+    brand_full: 'Arla Ko',
     quantity: 0,
   },
   {
@@ -49,11 +52,21 @@ const products = [
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const { state, dispatch } = useStore();
   const product = products.find(p => p.id === id);
+  const cartItem = state.cart.find(item => item?.id === product?.id);
+  const quantity = cartItem?.quantity || 0;
 
   if (!product) {
     return <div>Product not found</div>;
   }
+
+  const handleAddToCart = () => {
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: { ...product, quantity: 0 }
+    });
+  };
 
   return (
     <div className="mx-auto px-[39px]">
@@ -71,28 +84,78 @@ const ProductDetail = () => {
       </nav>
 
       <div className="bg-white rounded-[20px] p-8 shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div className="flex items-center justify-center">
             <img
               src={product.image}
               alt={product.name}
-              className="max-h-[300px] object-contain"
+              className="max-h-[400px] object-contain"
             />
           </div>
           
           <div className="flex flex-col">
             <h1 className="text-2xl font-semibold mb-2">{product.name}</h1>
-            <div className="text-lg font-medium mb-1">{product.brand}</div>
-            <div className="text-base bg-gray-100 rounded-full px-3 py-1 w-fit mb-2">
+            <div className="text-base mb-1">{product.brand}</div>
+            <div className="text-sm bg-gray-100 rounded-full px-3 py-1 w-fit mb-2">
               {product.volume}
             </div>
-            <div className="text-sm text-gray-600 mb-4">{product.pricePerUnit}</div>
+            <div className="text-sm text-gray-600 mb-6">{product.pricePerUnit}</div>
             
-            <div className="text-xl font-semibold mb-6">
+            <div className="text-2xl font-semibold mb-6">
               {product.price.toFixed(2)} kr
             </div>
 
-            <ProductCard product={product} />
+            {quantity > 0 ? (
+              <div className="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-1.5 h-[36px] w-fit">
+                <button
+                  onClick={() => {
+                    dispatch({
+                      type: 'UPDATE_QUANTITY',
+                      payload: { id: product.id, quantity: Math.max(0, quantity - 1) }
+                    });
+                  }}
+                  className="text-gray-900 hover:text-gray-700"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                <span className="text-gray-900 min-w-[20px] text-center">
+                  {quantity}
+                </span>
+                <button
+                  onClick={handleAddToCart}
+                  className="text-gray-900 hover:text-gray-700"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={handleAddToCart}
+                className="bg-ica-red text-white rounded-full px-8 py-2 hover:bg-red-700 transition-colors w-fit"
+              >
+                Köp
+              </button>
+            )}
+
+            <div className="mt-12">
+              <h2 className="text-lg font-semibold mb-4">Produktinformation</h2>
+              <p className="text-gray-700 mb-8">{product.description}</p>
+
+              <div className="space-y-4">
+                <div>
+                  <h3 className="font-medium mb-1">Ursprungsland</h3>
+                  <p className="text-gray-700">{product.countryOfOrigin}</p>
+                </div>
+                <div>
+                  <h3 className="font-medium mb-1">Varumärke</h3>
+                  <p className="text-gray-700">{product.brand_full}</p>
+                </div>
+                <div>
+                  <h3 className="font-medium mb-1">Ingredienser</h3>
+                  <p className="text-gray-700">EKOLOGISK MELLANMJÖLK</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
