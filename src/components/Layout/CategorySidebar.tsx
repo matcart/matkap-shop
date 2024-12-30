@@ -53,8 +53,8 @@ const CategorySidebar = () => {
   if (isMobile) {
     return (
       <Sheet open={state.isSidebarOpen} onOpenChange={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}>
-        <SheetContent side="left" className="w-full sm:w-[380px] p-0 bg-white">
-          <SheetHeader className="p-4 border-b border-gray-100">
+        <SheetContent side="left" className="w-full p-0 bg-white">
+          <SheetHeader className="p-4">
             <div className="flex items-center justify-between">
               <SheetTitle className="text-xl font-bold">Kategorier</SheetTitle>
               <Button
@@ -76,9 +76,9 @@ const CategorySidebar = () => {
   }
 
   return (
-    <div className="hidden lg:block px-[100px] py-6">
+    <div className="hidden lg:block py-6">
       <aside className="w-64 bg-white rounded-xl shadow-sm">
-        <div className="p-4 border-b border-gray-100">
+        <div className="p-4">
           <h2 className="text-xl font-bold text-gray-900">Kategorier</h2>
         </div>
         <div className="overflow-y-auto max-h-[calc(100vh-12rem)]">

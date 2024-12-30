@@ -16,9 +16,9 @@ const App = () => (
     <TooltipProvider>
       <StoreProvider>
         <BrowserRouter>
-          <div className="min-h-screen flex flex-col bg-gray-50">
+          <div className="min-h-screen flex flex-col bg-[#F1F1F1]">
             <Header />
-            <div className="flex-1 flex px-5 lg:px-0">
+            <div className="flex-1 flex">
               <CategorySidebar />
               <main className="flex-1">
                 <Routes>
