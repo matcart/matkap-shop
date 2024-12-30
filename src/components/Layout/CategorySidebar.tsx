@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useStore } from '@/contexts/StoreContext';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const categories = [
   { id: 'erbjudanden', name: 'Erbjudanden' },
@@ -20,11 +21,13 @@ const categories = [
 
 const CategorySidebar = () => {
   const isMobile = useIsMobile();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const selectedCategory = searchParams.get('category');
   const { state, dispatch } = useStore();
 
   const handleCategoryClick = (categoryId: string) => {
-    setSelectedCategory(categoryId);
+    navigate(`/?category=${categoryId}`);
     if (isMobile) {
       dispatch({ type: 'TOGGLE_SIDEBAR' });
     }

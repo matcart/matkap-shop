@@ -53,6 +53,7 @@ const Index = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const category = searchParams.get('category');
+  const searchQuery = searchParams.get('search');
 
   const { data: stores } = useQuery({
     queryKey: ['stores'],
@@ -68,7 +69,8 @@ const Index = () => {
 
   const storeName = stores?.[0]?.name || 'ICA Nära Laduvägen';
 
-  if (!category) {
+  // Show home page if no category or search query
+  if (!category && !searchQuery) {
     return (
       <div>
         <div className="bg-white rounded-2xl overflow-hidden shadow-sm ml-0 lg:ml-[39px]">
@@ -95,20 +97,38 @@ const Index = () => {
     );
   }
 
+  // Filter products based on search query if present
+  const filteredProducts = searchQuery 
+    ? products.filter(product => 
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.brand.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : products;
+
   return (
     <div className="mx-auto px-[39px]">
       <nav className="text-sm mb-8 text-gray-600">
         <ol className="flex items-center gap-2">
           <li>Kategorier</li>
           <li>/</li>
-          <li>Mejeri & Ost</li>
-          <li>/</li>
-          <li className="font-semibold text-gray-900">Allt inom Mejeri & Ost</li>
+          <li>{category ? 'Mejeri & Ost' : 'Sökresultat'}</li>
+          {category && (
+            <>
+              <li>/</li>
+              <li className="font-semibold text-gray-900">Allt inom Mejeri & Ost</li>
+            </>
+          )}
+          {searchQuery && (
+            <>
+              <li>/</li>
+              <li className="font-semibold text-gray-900">"{searchQuery}"</li>
+            </>
+          )}
         </ol>
       </nav>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pr-0">
-        {products.map((product) => {
+        {filteredProducts.map((product) => {
           const cartItem = state.cart.find(item => item.id === product.id);
           const quantity = cartItem?.quantity || 0;
 
@@ -122,7 +142,7 @@ const Index = () => {
                     className="h-full object-contain"
                   />
                 </div>
-                <h2 className="text-base text-center font-semibold leading-tight mb-4">
+                <h2 className="text-base font-semibold text-center leading-tight mb-4">
                   {product.name}
                 </h2>
                 <div className="text-xs text-center mb-1 bg-gray-100 rounded-full px-2 py-1">

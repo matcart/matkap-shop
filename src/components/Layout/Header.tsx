@@ -2,16 +2,25 @@ import { Search } from 'lucide-react';
 import { useStore } from '@/contexts/StoreContext';
 import { Button } from '../ui/button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
 
 const Header = () => {
   const { state, dispatch } = useStore();
   const navigate = useNavigate();
-  const cartItemCount = state.cart.reduce((sum, item) => sum + item.quantity, 0);
   const [searchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState('');
+  const cartItemCount = state.cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleLogoClick = () => {
-    if (searchParams.get('category')) {
+    if (searchParams.get('category') || searchParams.get('search')) {
       navigate('/');
+    }
+  };
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
@@ -51,14 +60,16 @@ const Header = () => {
           </div>
 
           <div className="mt-4 lg:mt-0 lg:absolute lg:left-[394px] lg:top-1/2 lg:-translate-y-1/2 lg:w-[376px]">
-            <div className="relative">
+            <form onSubmit={handleSearch} className="relative">
               <input
                 type="search"
                 placeholder="Sök bland tusentals varor"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full h-10 pl-10 pr-4 rounded-lg bg-[#F5F5F5] focus:outline-none placeholder-[#898E8F] [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-cancel-button]:h-4 [&::-webkit-search-cancel-button]:w-4 [&::-webkit-search-cancel-button]:bg-[#333333] [&::-webkit-search-cancel-button]:cursor-pointer"
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#898E8F]" />
-            </div>
+            </form>
           </div>
         </div>
       </div>
