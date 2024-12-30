@@ -2,7 +2,7 @@ import React from 'react';
 import { useStore } from '@/contexts/StoreContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "@/components/ui/breadcrumb";
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '@/components/Products/ProductCard';
 import SearchResults from '@/components/Search/SearchResults';
@@ -50,6 +50,23 @@ const products = [
   },
 ];
 
+const categories = [
+  { 
+    id: 'erbjudanden', 
+    name: 'Erbjudanden', 
+    icon: '/lovable-uploads/00ac429b-336d-455a-b07a-c5e9722254c3.png' 
+  },
+  { id: 'kott', name: 'Kött, Fågel & Fisk' },
+  { id: 'frukt', name: 'Frukt & Grönt' },
+  { id: 'mejeri', name: 'Mejeri & Ost' },
+  { id: 'brod', name: 'Bröd & Kakor' },
+  { id: 'vegetariskt', name: 'Vegetariskt' },
+  { id: 'fardigmat', name: 'Färdigmat' },
+  { id: 'barn', name: 'Barn' },
+  { id: 'traning', name: 'Träning' },
+  { id: 'hushall', name: 'Hushåll' },
+];
+
 const Index = () => {
   const { state } = useStore();
   const [searchParams] = useSearchParams();
@@ -69,6 +86,7 @@ const Index = () => {
   });
 
   const storeName = stores?.[0]?.name || 'ICA Nära Laduvägen';
+  const currentCategory = categories.find(c => c.id === category);
 
   // Filter products based on search query if present
   const filteredProducts = searchQuery 
@@ -122,17 +140,18 @@ const Index = () => {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Kategorier</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/?category=dairy">Mejeri & Ost</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage className="font-semibold text-gray-900">
-                Allt inom Mejeri & Ost
-              </BreadcrumbPage>
+              {category === 'erbjudanden' ? (
+                <BreadcrumbPage className="font-semibold text-gray-900 flex items-center gap-3">
+                  <img src="/lovable-uploads/00ac429b-336d-455a-b07a-c5e9722254c3.png" alt="" className="w-4 h-4" />
+                  {currentCategory?.name || 'Erbjudanden'}
+                </BreadcrumbPage>
+              ) : (
+                <>
+                  <BreadcrumbPage className="font-semibold text-gray-900">
+                    {currentCategory?.name || 'Kategorier'}
+                  </BreadcrumbPage>
+                </>
+              )}
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
