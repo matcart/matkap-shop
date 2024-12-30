@@ -42,14 +42,14 @@ const CategorySidebar = () => {
               onClick={() => handleCategoryClick(category.id)}
               className={`w-full text-left px-4 py-[18px] flex items-center justify-between group
                 ${selectedCategory === category.id ? 'bg-gray-50' : 'hover:bg-gray-50'}
-                ${category.id === 'erbjudanden' ? 'border-b-[1px]' : 'border-t-[1px]'}
+                ${category.id === 'erbjudanden' ? 'border-b border-gray-200' : 'border-t border-gray-200'}
                 transition-colors duration-200`}
             >
               <div className="flex items-center gap-3">
                 {category.icon && <category.icon className="w-4 h-4 text-gray-600" />}
                 <span className="text-sm font-medium text-gray-900">{category.name}</span>
               </div>
-              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600" />
+              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 mr-0" />
             </button>
           </li>
         ))}
