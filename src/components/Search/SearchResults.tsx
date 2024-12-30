@@ -1,4 +1,4 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "@/components/ui/breadcrumb";
 import ProductCard from "../Products/ProductCard";
 
 type SearchResultsProps = {
@@ -12,10 +12,6 @@ const SearchResults = ({ searchQuery, products }: SearchResultsProps) => {
       <nav className="text-sm mb-8 text-gray-600">
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Kategorier</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbPage className="font-semibold text-gray-900">
                 Sökresultat för "{searchQuery}" ({products.length} träffar)

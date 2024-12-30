@@ -44,7 +44,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="text-sm font-medium mb-0.5">
           {product.brand}
         </div>
-        <div className="text-xs text-gray-600 mb-4">
+        <div className="text-xs text-gray-600 mb-2">
           {product.pricePerUnit}
         </div>
       </div>
