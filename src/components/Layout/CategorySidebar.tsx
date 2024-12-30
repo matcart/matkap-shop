@@ -45,11 +45,11 @@ const CategorySidebar = () => {
                 ${category.id === 'erbjudanden' ? 'border-b-[1px]' : 'border-t-[1px]'}
                 transition-colors duration-200`}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 {category.icon && <category.icon className="w-4 h-4 text-gray-600" />}
                 <span className="text-sm font-medium text-gray-900">{category.name}</span>
               </div>
-              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 mr-1" />
+              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600" />
             </button>
           </li>
         ))}
@@ -85,7 +85,7 @@ const CategorySidebar = () => {
   return (
     <div className="hidden lg:block">
       <aside className="w-64 bg-white rounded-xl shadow-sm">
-        <div className="p-4">
+        <div className="p-3">
           <h2 className="text-lg font-semibold text-gray-900">Kategorier</h2>
         </div>
         <div className="overflow-y-auto max-h-[calc(100vh-12rem)]">
