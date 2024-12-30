@@ -1,8 +1,7 @@
-import React from 'react';
 import { useStore } from '@/contexts/StoreContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '@/components/Products/ProductCard';
 import SearchResults from '@/components/Search/SearchResults';
@@ -139,20 +138,26 @@ const Index = () => {
       <nav className="text-sm mb-8 text-gray-600">
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>
-              {category === 'erbjudanden' ? (
+            {category === 'erbjudanden' ? (
+              <BreadcrumbItem>
                 <BreadcrumbPage className="font-semibold text-gray-900 flex items-center gap-3">
                   <img src="/lovable-uploads/00ac429b-336d-455a-b07a-c5e9722254c3.png" alt="" className="w-4 h-4" />
                   {currentCategory?.name || 'Erbjudanden'}
                 </BreadcrumbPage>
-              ) : (
-                <>
+              </BreadcrumbItem>
+            ) : (
+              <>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Kategorier</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
                   <BreadcrumbPage className="font-semibold text-gray-900">
-                    {currentCategory?.name || 'Kategorier'}
+                    {currentCategory?.name}
                   </BreadcrumbPage>
-                </>
-              )}
-            </BreadcrumbItem>
+                </BreadcrumbItem>
+              </>
+            )}
           </BreadcrumbList>
         </Breadcrumb>
       </nav>
