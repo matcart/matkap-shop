@@ -80,7 +80,7 @@ const ProductDetail = () => {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <button onClick={handleBack} className="flex items-center gap-2 font-medium">
+              <button onClick={handleBack} className="flex items-center gap-2 font-medium hover:text-[#222222]">
                 <ChevronLeft className="w-4 h-4" />
                 Tillbaka
               </button>
@@ -139,7 +139,7 @@ const ProductDetail = () => {
                 onClick={handleAddToCart}
                 className="bg-ica-red text-white rounded-full px-8 py-2 hover:bg-red-700 transition-colors w-fit"
               >
-                Köp
+                Lägg till i varukorg
               </button>
             )}
           </div>
