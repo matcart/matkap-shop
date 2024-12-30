@@ -85,7 +85,7 @@ const CategorySidebar = () => {
   return (
     <div className="hidden lg:block">
       <aside className="w-64 bg-white rounded-xl shadow-sm">
-        <div className="p-3">
+        <div className="px-4 py-3">
           <h2 className="text-lg font-semibold text-gray-900">Kategorier</h2>
         </div>
         <div className="overflow-y-auto max-h-[calc(100vh-12rem)]">
