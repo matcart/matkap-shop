@@ -5,16 +5,16 @@ import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const categories = [
-  { id: 'erbjudanden', name: 'Erbjudanden', icon: '🏷️' },
-  { id: 'kott', name: 'Kött, Fågel & Fisk', icon: '🥩' },
-  { id: 'frukt', name: 'Frukt & Grönt', icon: '🥬' },
-  { id: 'mejeri', name: 'Mejeri & Ost', icon: '🥛' },
-  { id: 'brod', name: 'Bröd & Kakor', icon: '🍞' },
-  { id: 'vegetariskt', name: 'Vegetariskt', icon: '🥗' },
-  { id: 'fardigmat', name: 'Färdigmat', icon: '🍱' },
-  { id: 'barn', name: 'Barn', icon: '👶' },
-  { id: 'traning', name: 'Träning', icon: '🏃' },
-  { id: 'hushall', name: 'Hushåll', icon: '🏠' },
+  { id: 'erbjudanden', name: 'Erbjudanden' },
+  { id: 'kott', name: 'Kött, Fågel & Fisk' },
+  { id: 'frukt', name: 'Frukt & Grönt' },
+  { id: 'mejeri', name: 'Mejeri & Ost' },
+  { id: 'brod', name: 'Bröd & Kakor' },
+  { id: 'vegetariskt', name: 'Vegetariskt' },
+  { id: 'fardigmat', name: 'Färdigmat' },
+  { id: 'barn', name: 'Barn' },
+  { id: 'traning', name: 'Träning' },
+  { id: 'hushall', name: 'Hushåll' },
 ];
 
 interface CategorySidebarProps {
@@ -42,10 +42,7 @@ const CategorySidebar = ({ isOpen, onClose }: CategorySidebarProps) => {
                 ${selectedCategory === category.id ? 'bg-gray-50' : 'hover:bg-gray-50'}
                 transition-colors duration-200`}
             >
-              <span className="flex items-center gap-3">
-                <span className="text-xl">{category.icon}</span>
-                <span className="text-base font-medium">{category.name}</span>
-              </span>
+              <span className="text-base font-medium text-gray-900">{category.name}</span>
               <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600" />
             </button>
           </li>
@@ -80,14 +77,16 @@ const CategorySidebar = ({ isOpen, onClose }: CategorySidebarProps) => {
   }
 
   return (
-    <aside className="hidden lg:block w-64 bg-white border-r border-gray-200">
-      <div className="p-4 border-b border-gray-100">
-        <h2 className="text-2xl font-bold">Kategorier</h2>
-      </div>
-      <div className="overflow-y-auto h-[calc(100vh-5rem)]">
-        <CategoryList />
-      </div>
-    </aside>
+    <div className="hidden lg:block px-[100px] py-6">
+      <aside className="w-64 bg-white border border-gray-200 rounded-xl shadow-sm">
+        <div className="p-4 border-b border-gray-100">
+          <h2 className="text-xl font-bold text-gray-900">Kategorier</h2>
+        </div>
+        <div className="overflow-y-auto max-h-[calc(100vh-12rem)]">
+          <CategoryList />
+        </div>
+      </aside>
+    </div>
   );
 };
 

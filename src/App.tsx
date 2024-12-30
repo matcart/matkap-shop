@@ -18,9 +18,9 @@ const App = () => (
         <BrowserRouter>
           <div className="min-h-screen flex flex-col bg-gray-50">
             <Header />
-            <div className="flex-1 flex">
+            <div className="flex-1 flex px-5 lg:px-0">
               <CategorySidebar />
-              <main className="flex-1 lg:ml-64">
+              <main className="flex-1">
                 <Routes>
                   <Route path="/" element={<Index />} />
                 </Routes>
