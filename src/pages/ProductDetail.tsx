@@ -3,6 +3,7 @@ import { ChevronLeft } from 'lucide-react';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { useStore } from '@/contexts/StoreContext';
 import { Plus, Minus } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const products = [
   {
@@ -83,7 +84,7 @@ const ProductDetail = () => {
         </Breadcrumb>
       </nav>
 
-      <div className="bg-white rounded-[20px] p-8 shadow-sm">
+      <div className="bg-white rounded-[20px] p-8 shadow-sm mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div className="flex items-center justify-center">
             <img
@@ -136,28 +137,48 @@ const ProductDetail = () => {
                 Köp
               </button>
             )}
-
-            <div className="mt-12">
-              <h2 className="text-lg font-semibold mb-4">Produktinformation</h2>
-              <p className="text-gray-700 mb-8">{product.description}</p>
-
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-medium mb-1">Ursprungsland</h3>
-                  <p className="text-gray-700">{product.countryOfOrigin}</p>
-                </div>
-                <div>
-                  <h3 className="font-medium mb-1">Varumärke</h3>
-                  <p className="text-gray-700">{product.brand_full}</p>
-                </div>
-                <div>
-                  <h3 className="font-medium mb-1">Ingredienser</h3>
-                  <p className="text-gray-700">EKOLOGISK MELLANMJÖLK</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
+      </div>
+
+      <div className="bg-white rounded-[20px] p-8 shadow-sm">
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="description">
+            <AccordionTrigger className="text-lg font-semibold">
+              Produktinformation
+            </AccordionTrigger>
+            <AccordionContent>
+              <p className="text-gray-700 mb-8">{product.description}</p>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="origin">
+            <AccordionTrigger className="text-lg font-semibold">
+              Ursprungsland
+            </AccordionTrigger>
+            <AccordionContent>
+              <p className="text-gray-700">{product.countryOfOrigin}</p>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="brand">
+            <AccordionTrigger className="text-lg font-semibold">
+              Varumärke
+            </AccordionTrigger>
+            <AccordionContent>
+              <p className="text-gray-700">{product.brand_full}</p>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="ingredients">
+            <AccordionTrigger className="text-lg font-semibold">
+              Ingredienser
+            </AccordionTrigger>
+            <AccordionContent>
+              <p className="text-gray-700">EKOLOGISK MELLANMJÖLK</p>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
     </div>
   );
