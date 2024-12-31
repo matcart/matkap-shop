@@ -13,7 +13,7 @@ const Cart = () => {
       <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => dispatch({ type: 'TOGGLE_CART' })} />
       <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl animate-slide-in">
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-4 border-b">
+          <div className="flex items-center justify-between p-4">
             <h2 className="text-lg font-semibold">Varukorg</h2>
             <Button 
               variant="ghost" 
@@ -31,35 +31,41 @@ const Cart = () => {
             ) : (
               <ul className="space-y-4">
                 {state.cart.map((item) => (
-                  <li key={item.id} className="flex items-start space-x-4">
-                    {item.image && (
-                      <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded" />
-                    )}
-                    <div className="flex-1">
-                      <h3 className="font-medium text-base">{item.name}</h3>
-                      <div className="text-sm text-[#222222]">{item.brand}, {item.volume}</div>
-                      <div className="text-base font-semibold text-[#222222] mt-1">{item.price} kr</div>
+                  <li key={item.id} className="flex items-start space-x-4 pb-4 border-b border-gray-100">
+                    <div className="flex items-center h-full">
+                      {item.image && (
+                        <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded" />
+                      )}
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <button
-                        className="p-1 rounded-full hover:bg-gray-100"
-                        onClick={() => dispatch({
-                          type: 'UPDATE_QUANTITY',
-                          payload: { id: item.id, quantity: Math.max(0, item.quantity - 1) }
-                        })}
-                      >
-                        <Minus className="w-4 h-4" />
-                      </button>
-                      <span className="w-8 text-center">{item.quantity}</span>
-                      <button
-                        className="p-1 rounded-full hover:bg-gray-100"
-                        onClick={() => dispatch({
-                          type: 'UPDATE_QUANTITY',
-                          payload: { id: item.id, quantity: item.quantity + 1 }
-                        })}
-                      >
-                        <Plus className="w-4 h-4" />
-                      </button>
+                    <div className="flex-1 flex flex-col h-full">
+                      <h3 className="font-medium text-base">{item.name}</h3>
+                      <div className="text-sm text-gray-600">{item.brand}, {item.volume}</div>
+                      <div className="text-base font-semibold text-[#222222] mt-1">{item.price} kr</div>
+                      <div className="flex justify-end mt-auto pt-2">
+                        <div className="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-1.5 h-[36px]">
+                          <button
+                            onClick={() => dispatch({
+                              type: 'UPDATE_QUANTITY',
+                              payload: { id: item.id, quantity: Math.max(0, item.quantity - 1) }
+                            })}
+                            className="text-gray-900 hover:text-gray-700"
+                          >
+                            <Minus className="w-4 h-4" />
+                          </button>
+                          <span className="text-gray-900 min-w-[20px] text-center">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() => dispatch({
+                              type: 'ADD_TO_CART',
+                              payload: { ...item, quantity: item.quantity }
+                            })}
+                            className="text-gray-900 hover:text-gray-700"
+                          >
+                            <Plus className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </li>
                 ))}
