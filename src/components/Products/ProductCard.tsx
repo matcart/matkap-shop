@@ -1,17 +1,10 @@
 import { Plus, Minus } from "lucide-react";
 import { useStore } from "@/contexts/StoreContext";
 import { Link } from "react-router-dom";
+import { Product } from '@/types/product';
 
 type ProductCardProps = {
-  product: {
-    id: string;
-    name: string;
-    price: number;
-    volume: string;
-    brand: string;
-    pricePerUnit: string;
-    image: string;
-  };
+  product: Product;
 };
 
 const ProductCard = ({ product }: ProductCardProps) => {
@@ -67,7 +60,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     payload: { id: product.id, quantity: Math.max(0, quantity - 1) }
                   });
                 }}
-                className="text-gray-900 hover:text-gray-700"
+                className="text-gray-900 hover:bg-gray-200 rounded-full p-1 transition-colors"
               >
                 <Minus className="w-4 h-4" />
               </button>
@@ -76,7 +69,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               </span>
               <button
                 onClick={handleAddToCart}
-                className="text-gray-900 hover:text-gray-700"
+                className="text-gray-900 hover:bg-gray-200 rounded-full p-1 transition-colors"
               >
                 <Plus className="w-4 h-4" />
               </button>

@@ -40,7 +40,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
                 payload: { id: product.id, quantity: Math.max(0, quantity - 1) }
               });
             }}
-            className="text-gray-900 hover:text-gray-700"
+            className="text-gray-900 hover:bg-gray-200 rounded-full p-1 transition-colors"
           >
             <Minus className="w-4 h-4" />
           </button>
@@ -49,7 +49,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           </span>
           <button
             onClick={handleAddToCart}
-            className="text-gray-900 hover:text-gray-700"
+            className="text-gray-900 hover:bg-gray-200 rounded-full p-1 transition-colors"
           >
             <Plus className="w-4 h-4" />
           </button>

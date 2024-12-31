@@ -31,24 +31,24 @@ const Cart = () => {
             ) : (
               <ul className="space-y-4">
                 {state.cart.map((item) => (
-                  <li key={item.id} className="flex items-start space-x-4 pb-4 border-b border-gray-100">
-                    <div className="flex items-center h-full">
+                  <li key={item.id} className="flex items-center space-x-4 pb-4 border-b border-gray-100">
+                    <div className="flex items-center justify-center h-full">
                       {item.image && (
                         <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded" />
                       )}
                     </div>
-                    <div className="flex-1 flex flex-col h-full">
+                    <div className="flex-1 flex flex-col min-h-[80px]">
                       <h3 className="font-medium text-base">{item.name}</h3>
                       <div className="text-sm text-gray-600">{item.brand}, {item.volume}</div>
                       <div className="text-base font-semibold text-[#222222] mt-1">{item.price} kr</div>
-                      <div className="flex justify-end mt-auto pt-2">
+                      <div className="flex justify-end mt-auto">
                         <div className="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-1.5 h-[36px]">
                           <button
                             onClick={() => dispatch({
                               type: 'UPDATE_QUANTITY',
                               payload: { id: item.id, quantity: Math.max(0, item.quantity - 1) }
                             })}
-                            className="text-gray-900 hover:text-gray-700"
+                            className="text-gray-900 hover:bg-gray-200 rounded-full p-1 transition-colors"
                           >
                             <Minus className="w-4 h-4" />
                           </button>
@@ -60,7 +60,7 @@ const Cart = () => {
                               type: 'ADD_TO_CART',
                               payload: { ...item, quantity: item.quantity }
                             })}
-                            className="text-gray-900 hover:text-gray-700"
+                            className="text-gray-900 hover:bg-gray-200 rounded-full p-1 transition-colors"
                           >
                             <Plus className="w-4 h-4" />
                           </button>
