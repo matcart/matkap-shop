@@ -15,8 +15,13 @@ const Cart = () => {
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-lg font-semibold">Varukorg</h2>
-            <Button variant="ghost" size="icon" className="w-8 h-8" onClick={() => dispatch({ type: 'TOGGLE_CART' })}>
-              <img src="assets/icons/exit_icon.svg" className="w-8 h-8" />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="w-8 h-8 hover:bg-gray-100 rounded-full"
+              onClick={() => dispatch({ type: 'TOGGLE_CART' })}
+            >
+              <X className="h-5 w-5 text-gray-500" />
             </Button>
           </div>
 
@@ -26,13 +31,14 @@ const Cart = () => {
             ) : (
               <ul className="space-y-4">
                 {state.cart.map((item) => (
-                  <li key={item.id} className="flex items-center space-x-4">
+                  <li key={item.id} className="flex items-start space-x-4">
                     {item.image && (
-                      <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
+                      <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded" />
                     )}
                     <div className="flex-1">
-                      <h3 className="font-medium">{item.name}</h3>
-                      <p className="text-sm text-gray-500">{item.price} kr</p>
+                      <h3 className="font-medium text-base">{item.name}</h3>
+                      <div className="text-sm text-[#222222]">{item.brand}, {item.volume}</div>
+                      <div className="text-base font-semibold text-[#222222] mt-1">{item.price} kr</div>
                     </div>
                     <div className="flex items-center space-x-2">
                       <button
