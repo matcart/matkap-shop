@@ -2,11 +2,12 @@ export interface Product {
   id: string;
   name: string;
   price: number;
-  image?: string;
-  description?: string;
-  brand: string;
   volume: string;
-  brand_full?: string;
+  brand: string;
+  pricePerUnit: string;
+  image: string;
+  description?: string;
   countryOfOrigin?: string;
+  brand_full?: string;
   quantity: number;
 }
