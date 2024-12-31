@@ -1,9 +1,7 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
-import { useStore } from '@/contexts/StoreContext';
-import { Plus, Minus } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useParams } from 'react-router-dom';
+import ProductHeader from '@/components/ProductDetail/ProductHeader';
+import ProductInfo from '@/components/ProductDetail/ProductInfo';
+import ProductAccordion from '@/components/ProductDetail/ProductAccordion';
 
 const products = [
   {
@@ -53,54 +51,15 @@ const products = [
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const { state, dispatch } = useStore();
   const product = products.find(p => p.id === id);
-  const cartItem = state.cart.find(item => item?.id === product?.id);
-  const quantity = cartItem?.quantity || 0;
 
   if (!product) {
     return <div>Product not found</div>;
   }
 
-  const handleAddToCart = () => {
-    dispatch({
-      type: 'ADD_TO_CART',
-      payload: { ...product, quantity: 0 }
-    });
-  };
-
-  const handleBack = () => {
-    try {
-      // First try to go back
-      window.history.back();
-      
-      // If no history exists (detected by checking if we're still on the same page after a short delay)
-      setTimeout(() => {
-        if (window.location.pathname === `/product/${id}`) {
-          navigate('/');
-        }
-      }, 100);
-    } catch (error) {
-      // Fallback to home page if any error occurs
-      navigate('/');
-    }
-  };
-
   return (
     <div className="mx-auto px-[39px] pb-12">
-      <nav className="text-sm mb-6 text-gray-600">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <button onClick={handleBack} className="flex items-center gap-2 font-medium hover:text-[#222222]">
-                <ChevronLeft className="w-4 h-4" />
-                Tillbaka
-              </button>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </nav>
+      <ProductHeader />
 
       <div className="bg-white rounded-[20px] p-8 shadow-sm mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -112,92 +71,11 @@ const ProductDetail = () => {
             />
           </div>
           
-          <div className="flex flex-col">
-            <h1 className="text-2xl font-semibold mb-6">{product.name}</h1>
-            <div className="text-sm bg-gray-100 rounded-full px-3 py-1 w-fit mb-2">
-              {product.volume}
-            </div>
-            <div className="text-base mb-1">{product.brand}</div>
-            <div className="text-sm text-gray-600 mb-12">{product.pricePerUnit}</div>
-            
-            <div className="text-2xl font-semibold mb-6">
-              {product.price.toFixed(2)} kr
-            </div>
-
-            {quantity > 0 ? (
-              <div className="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-1.5 h-[36px] w-fit">
-                <button
-                  onClick={() => {
-                    dispatch({
-                      type: 'UPDATE_QUANTITY',
-                      payload: { id: product.id, quantity: Math.max(0, quantity - 1) }
-                    });
-                  }}
-                  className="text-gray-900 hover:text-gray-700"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <span className="text-gray-900 min-w-[20px] text-center">
-                  {quantity}
-                </span>
-                <button
-                  onClick={handleAddToCart}
-                  className="text-gray-900 hover:text-gray-700"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={handleAddToCart}
-                className="bg-ica-red text-white rounded-full px-8 py-2 hover:bg-red-700 transition-colors w-fit"
-              >
-                Lägg till i varukorg
-              </button>
-            )}
-          </div>
+          <ProductInfo product={product} />
         </div>
       </div>
 
-      <div className="bg-white rounded-[20px] p-8 shadow-sm">
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="description">
-            <AccordionTrigger className="text-base font-semibold hover:no-underline">
-              Produktinformation
-            </AccordionTrigger>
-            <AccordionContent>
-              <p className="text-gray-700 mb-8">{product.description}</p>
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="origin">
-            <AccordionTrigger className="text-base font-semibold hover:no-underline">
-              Ursprungsland
-            </AccordionTrigger>
-            <AccordionContent>
-              <p className="text-gray-700">{product.countryOfOrigin}</p>
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="brand">
-            <AccordionTrigger className="text-base font-semibold hover:no-underline">
-              Varumärke
-            </AccordionTrigger>
-            <AccordionContent>
-              <p className="text-gray-700">{product.brand_full}</p>
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="ingredients">
-            <AccordionTrigger className="text-base font-semibold hover:no-underline">
-              Ingredienser
-            </AccordionTrigger>
-            <AccordionContent>
-              <p className="text-gray-700">EKOLOGISK MELLANMJÖLK</p>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </div>
+      <ProductAccordion product={product} />
     </div>
   );
 };
