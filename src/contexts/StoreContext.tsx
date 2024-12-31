@@ -7,8 +7,6 @@ interface Product {
   image?: string;
   description?: string;
   quantity: number;
-  brand: string;
-  volume: string;
 }
 
 interface State {
