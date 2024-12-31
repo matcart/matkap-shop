@@ -7,7 +7,7 @@ interface ProductAccordionProps {
 
 const ProductAccordion = ({ product }: ProductAccordionProps) => {
   return (
-    <div className="bg-white rounded-[20px] p-8 shadow-sm">
+    <div className="bg-white rounded-[20px] p-6 shadow-sm">
       <Accordion type="single" collapsible className="w-full [&>*:last-child]:border-none">
         <AccordionItem value="description" className="pt-0">
           <AccordionTrigger className="text-sm font-semibold hover:no-underline">
