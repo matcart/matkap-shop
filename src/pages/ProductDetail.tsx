@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { useStore } from '@/contexts/StoreContext';
@@ -71,7 +71,20 @@ const ProductDetail = () => {
   };
 
   const handleBack = () => {
-    navigate(-1);
+    try {
+      // First try to go back
+      window.history.back();
+      
+      // If no history exists (detected by checking if we're still on the same page after a short delay)
+      setTimeout(() => {
+        if (window.location.pathname === `/product/${id}`) {
+          navigate('/');
+        }
+      }, 100);
+    } catch (error) {
+      // Fallback to home page if any error occurs
+      navigate('/');
+    }
   };
 
   return (
