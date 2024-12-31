@@ -13,7 +13,7 @@ const Cart = () => {
       <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => dispatch({ type: 'TOGGLE_CART' })} />
       <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl animate-slide-in">
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-4 border-b">
+          <div className="flex items-center justify-between p-4">
             <h2 className="text-lg font-semibold">Varukorg</h2>
             <Button 
               variant="ghost" 
@@ -31,9 +31,11 @@ const Cart = () => {
             ) : (
               <ul className="space-y-4">
                 {state.cart.map((item) => (
-                  <li key={item.id} className="flex items-start space-x-4">
+                  <li key={item.id} className="flex items-center space-x-4 pb-4 border-b border-gray-200">
                     {item.image && (
-                      <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded" />
+                      <div className="flex items-center">
+                        <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded" />
+                      </div>
                     )}
                     <div className="flex-1">
                       <h3 className="font-medium text-base">{item.name}</h3>
