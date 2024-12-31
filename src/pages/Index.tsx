@@ -98,10 +98,10 @@ const Index = () => {
   // Show home page if no category or search query
   if (!category && !searchQuery) {
     return (
-      <div className="px-0 md:px-[39px]">
-        <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
-          <div className="flex flex-col h-auto">
-            <div className="w-full h-[250px] relative">
+      <div>
+        <div className="bg-white rounded-2xl overflow-hidden shadow-sm ml-0 lg:ml-[39px]">
+          <div className="flex flex-col md:flex-row h-[400px]">
+            <div className="w-full md:w-1/2 h-48 md:h-full relative">
               <img
                 src="/assets/images/welcome.png"
                 alt="Welcome"
@@ -109,16 +109,13 @@ const Index = () => {
               />
             </div>
 
-            <div className="w-full bg-white p-8 flex flex-col justify-center items-center text-center">
+            <div className="w-full md:w-1/2 bg-white p-8 flex flex-col justify-center items-center text-center">
               <h2 className="text-ica-red text-base font-semibold mb-2">
                 Välkommen till
               </h2>
-              <h1 className="text-[25px] font-semibold text-gray-900 mb-6">
+              <h1 className="text-[25px] font-semibold text-gray-900">
                 {storeName}
               </h1>
-              <button className="bg-ica-red text-white px-8 py-3 rounded-full hover:bg-red-700 transition-colors text-base font-medium">
-                Visa sortiment
-              </button>
             </div>
           </div>
         </div>
@@ -129,7 +126,7 @@ const Index = () => {
   // Show search results
   if (searchQuery) {
     return (
-      <div className="px-4 md:px-[39px]">
+      <div className="px-[39px]">
         <SearchResults searchQuery={searchQuery} products={filteredProducts} />
       </div>
     );
@@ -137,8 +134,8 @@ const Index = () => {
 
   // Show category products
   return (
-    <div className="mx-auto px-4 md:px-[39px]">
-      <nav className="text-sm mb-8 text-gray-600 overflow-x-auto">
+    <div className="mx-auto px-[39px]">
+      <nav className="text-sm mb-8 text-gray-600">
         <Breadcrumb>
           <BreadcrumbList>
             {category === 'erbjudanden' ? (
@@ -165,7 +162,7 @@ const Index = () => {
         </Breadcrumb>
       </nav>
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
