@@ -2,12 +2,9 @@ export interface Product {
   id: string;
   name: string;
   price: number;
-  volume: string;
-  brand: string;
-  pricePerUnit: string;
-  image: string;
-  description?: string;
-  countryOfOrigin?: string;
-  brand_full?: string;
+  image?: string;
   quantity: number;
+  brand: string;
+  volume: string;
+  pricePerUnit?: string;
 }
