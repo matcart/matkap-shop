@@ -10,6 +10,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const cartItemCount = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+  const total = state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,10 +59,10 @@ const Header = () => {
               onClick={() => dispatch({ type: 'TOGGLE_CART' })}
               className="bg-ica-red text-white rounded-full px-4 py-2 hover:bg-red-700 transition-colors flex items-center gap-2 relative"
             >
-              <img src="/assets/icons/cart.svg" alt="Cart" className="w-5 h-5 brightness-0 invert" />
-              <span className="font-medium">10,00 kr</span>
+              <img src="/assets/icons/cart.svg" alt="Cart" className="w-4 h-4 brightness-0 invert" />
+              <span className="text-sm font-medium">{total.toFixed(2)} kr</span>
               {cartItemCount > 0 && (
-                <div className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                <div className="absolute -top-1 -right-1 bg-[#303030] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                   {cartItemCount}
                 </div>
               )}
