@@ -2,8 +2,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useStore } from '@/contexts/StoreContext';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { useState, useEffect } from 'react';
-import { Search, X } from 'lucide-react';
+import { useState } from 'react';
+import { Search, X, ShoppingCart } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from '@tanstack/react-query';
 
@@ -63,7 +63,6 @@ const Header = () => {
             <img src="/assets/icons/burger.svg" alt="Menu" />
           </Button>
           
-          {/* Center logo and store name on mobile */}
           <div className="flex items-center gap-4 absolute left-1/2 -translate-x-1/2 lg:static lg:transform-none">
             <Link to="/" className="flex items-center">
               <img src="/assets/icons/ica_logo.svg" alt="ICA" className="h-[22px]" />
@@ -76,7 +75,7 @@ const Header = () => {
               onClick={() => dispatch({ type: 'TOGGLE_CART' })}
               className="bg-ica-red text-white rounded-full px-4 py-2 hover:bg-red-700 transition-colors flex items-center gap-2 relative"
             >
-              <img src="/assets/icons/cart.svg" alt="Cart" className="w-4 h-4 brightness-0 invert" />
+              <ShoppingCart className="w-4 h-4" />
               <span className="text-sm font-medium">{total.toFixed(2)} kr</span>
               {cartItemCount > 0 && (
                 <div className="absolute -top-1 -right-1 bg-[#303030] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
@@ -97,8 +96,6 @@ const Header = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-8 bg-[#F5F5F5] border-none hover:bg-[#ECEDEE] focus:bg-[#ECEDEE] transition-colors focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400"
-                // Remove the default clear button
-                style={{ WebkitSearchDecoration: 'none', WebkitSearchCancel: 'none' }}
               />
               {searchQuery && (
                 <button
