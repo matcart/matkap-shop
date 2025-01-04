@@ -21,8 +21,8 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-[#f5f5f5]">
-      <div className="flex-col lg:px-[100px] px-[20px] py-[10px]">
-        <div className="flex justify-between items-center h-[70px]">
+      <div className="flex-col lg:px-[100px] px-[20px] lg:py-[12px] py-[10px]">
+        <div className="flex justify-between items-center">
           <Button
             variant="ghost"
             className="lg:hidden p-2 w-8 h-8"
