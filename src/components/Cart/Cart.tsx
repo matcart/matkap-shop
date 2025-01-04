@@ -1,6 +1,7 @@
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, X } from "lucide-react";
 import { useStore } from "@/contexts/StoreContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 
@@ -15,8 +16,15 @@ const Cart = () => {
   return (
     <Sheet open={state.isCartOpen} onOpenChange={() => dispatch({ type: 'TOGGLE_CART' })}>
       <SheetContent className="w-full sm:max-w-[500px] p-0">
-        <SheetHeader className="p-6">
+        <SheetHeader className="p-6 flex items-center justify-between">
           <SheetTitle>Varukorg</SheetTitle>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => dispatch({ type: 'TOGGLE_CART' })}
+          >
+            <X className="h-4 w-4" />
+          </Button>
         </SheetHeader>
 
         <div className="px-6">
