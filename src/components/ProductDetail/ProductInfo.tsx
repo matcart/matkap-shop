@@ -1,15 +1,20 @@
 import { Plus, Minus } from "lucide-react";
 import { useStore } from '@/contexts/StoreContext';
 import { Product } from '@/types/product';
+import { Skeleton } from "@/components/ui/skeleton";
+import { useState } from "react";
 
 interface ProductInfoProps {
-  product: Product;
+  product: Product & {
+    pricePerUnit?: string;
+  };
 }
 
 const ProductInfo = ({ product }: ProductInfoProps) => {
   const { state, dispatch } = useStore();
   const cartItem = state.cart.find(item => item?.id === product?.id);
   const quantity = cartItem?.quantity || 0;
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleAddToCart = () => {
     dispatch({

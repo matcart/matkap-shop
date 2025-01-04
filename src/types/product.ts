@@ -6,6 +6,7 @@ export interface Product {
   quantity: number;
   brand?: string;
   volume?: string;
+  pricePerUnit?: string;
   description?: string;
   countryOfOrigin?: string;
   brand_full?: string;

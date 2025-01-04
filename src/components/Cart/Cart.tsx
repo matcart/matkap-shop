@@ -1,10 +1,13 @@
 import { X, Plus, Minus } from 'lucide-react';
 import { useStore } from '@/contexts/StoreContext';
 import { Button } from '../ui/button';
+import { Skeleton } from '../ui/skeleton';
+import { useState } from 'react';
 
 const Cart = () => {
   const { state, dispatch } = useStore();
   const total = state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   if (!state.isCartOpen) return null;
 
@@ -33,8 +36,17 @@ const Cart = () => {
                 {state.cart.map((item) => (
                   <li key={item.id} className="flex items-center space-x-4 pb-4 border-b border-gray-200">
                     {item.image && (
-                      <div className="flex items-center">
-                        <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded" />
+                      <div className="flex items-center w-12 h-12">
+                        {!loadedImages[item.id] && (
+                          <Skeleton className="w-12 h-12 rounded" />
+                        )}
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className={`w-12 h-12 object-contain ${loadedImages[item.id] ? 'visible' : 'hidden'}`}
+                          loading="lazy"
+                          onLoad={() => setLoadedImages(prev => ({ ...prev, [item.id]: true }))}
+                        />
                       </div>
                     )}
                     <div className="flex-1">
@@ -44,7 +56,7 @@ const Cart = () => {
                     </div>
                     <div className="flex items-center space-x-2">
                       <button
-                        className="p-1 rounded-full hover:bg-gray-100"
+                        className="p-1 rounded-full hover:bg-gray-200"
                         onClick={() => dispatch({
                           type: 'UPDATE_QUANTITY',
                           payload: { id: item.id, quantity: Math.max(0, item.quantity - 1) }
@@ -54,7 +66,7 @@ const Cart = () => {
                       </button>
                       <span className="w-8 text-center">{item.quantity}</span>
                       <button
-                        className="p-1 rounded-full hover:bg-gray-100"
+                        className="p-1 rounded-full hover:bg-gray-200"
                         onClick={() => dispatch({
                           type: 'UPDATE_QUANTITY',
                           payload: { id: item.id, quantity: item.quantity + 1 }
