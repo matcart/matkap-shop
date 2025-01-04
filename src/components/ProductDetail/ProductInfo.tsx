@@ -25,10 +25,10 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         {product.volume}
       </div>
       <div className="text-base mb-1">{product.brand}</div>
-      <div className="text-sm text-[#8A898C] mb-16">{product.pricePerUnit}</div>
+      <div className="text-sm text-gray-600 mb-16">{product.pricePerUnit}</div>
       
       <div className="text-2xl font-semibold mb-6">
-        {product.price.toFixed(2).replace('.', ',')} kr
+        {product.price.toFixed(2)} kr
       </div>
 
       {quantity > 0 ? (
