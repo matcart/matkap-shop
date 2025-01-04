@@ -21,37 +21,20 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-[#f5f5f5]">
-      <div className="lg:px-[100px] px-[20px]">
+      <div className="flex-col lg:px-[100px] px-[20px] py-[10px]">
         <div className="flex justify-between items-center h-[70px]">
+          <Button
+            variant="ghost"
+            className="lg:hidden p-2 w-8 h-8"
+            onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}
+          >
+            <img src="/assets/icons/burger.svg" alt="Menu" />
+          </Button>
           <div className="flex items-center gap-4">
             <Link to="/" className="flex items-center">
               <img src="/assets/icons/ica_logo.svg" alt="ICA" className="h-[22px]" />
               <span className="text-[#222222] font-medium ml-4">ICA Nära Sundbyberg</span>
             </Link>
-          </div>
-
-          <div className="flex-1 max-w-md mx-8 relative">
-            <form onSubmit={handleSearch} className="relative">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <Input
-                  type="search"
-                  placeholder="Sök bland alla varor..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-8 bg-[#F5F5F5] border-none hover:bg-[#ECEDEE] focus:bg-[#ECEDEE] transition-colors focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-            </form>
           </div>
 
           <div className="flex items-center gap-6">
@@ -68,6 +51,30 @@ const Header = () => {
               )}
             </button>
           </div>
+        </div>
+
+        <div className="mt-4 lg:mt-0 lg:absolute lg:left-[394px] lg:top-1/2 lg:-translate-y-1/2 lg:w-[376px]">
+          <form onSubmit={handleSearch} className="relative">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Input
+                type="search"
+                placeholder="Sök bland alla varor..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-8 bg-[#F5F5F5] border-none hover:bg-[#ECEDEE] focus:bg-[#ECEDEE] transition-colors focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+          </form>
         </div>
       </div>
     </header>
