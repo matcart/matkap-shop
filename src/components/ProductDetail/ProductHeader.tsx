@@ -6,16 +6,11 @@ const ProductHeader = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    try {
-      window.history.back();
-      setTimeout(() => {
-        if (window.location.pathname.startsWith('/product/')) {
-          navigate('/');
-        }
-      }, 100);
-    } catch (error) {
-      navigate('/');
-    }
+    navigate(-1, { 
+      state: { 
+        scrollRestoration: true 
+      }
+    });
   };
 
   return (
