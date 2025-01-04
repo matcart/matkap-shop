@@ -10,32 +10,42 @@ import Cart from "./components/Cart/Cart";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 
-const queryClient = new QueryClient();
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 1,
+    },
+  },
+});
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <StoreProvider>
-        <BrowserRouter>
-          <div className="min-h-screen flex flex-col bg-[#F6F6F6]">
-            <Header />
-            <div className="flex-1 flex lg:px-[100px] px-[20px] pt-[35px]">
-              <CategorySidebar />
-              <main className="flex-1">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/product/:id" element={<ProductDetail />} />
-                </Routes>
-              </main>
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <StoreProvider>
+          <BrowserRouter>
+            <div className="min-h-screen flex flex-col bg-[#F6F6F6]">
+              <Header />
+              <div className="flex-1 flex lg:px-[100px] px-[20px] pt-[35px]">
+                <CategorySidebar />
+                <main className="flex-1">
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/product/:id" element={<ProductDetail />} />
+                  </Routes>
+                </main>
+              </div>
+              <Cart />
             </div>
-            <Cart />
-          </div>
-        </BrowserRouter>
-        <Toaster />
-        <Sonner />
-      </StoreProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+          </BrowserRouter>
+          <Toaster />
+          <Sonner />
+        </StoreProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;
