@@ -1,101 +1,97 @@
-import { X, Plus, Minus } from 'lucide-react';
-import { useStore } from '@/contexts/StoreContext';
-import { Button } from '../ui/button';
-import { Skeleton } from '../ui/skeleton';
-import { useState } from 'react';
+import { Plus, Minus, X } from "lucide-react";
+import { useStore } from "@/contexts/StoreContext";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useState } from "react";
 
 const Cart = () => {
   const { state, dispatch } = useStore();
-  const total = state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+  const [imageLoaded, setImageLoaded] = useState<{ [key: string]: boolean }>({});
 
-  if (!state.isCartOpen) return null;
+  const handleImageLoad = (id: string) => {
+    setImageLoaded(prev => ({ ...prev, [id]: true }));
+  };
 
   return (
-    <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => dispatch({ type: 'TOGGLE_CART' })} />
-      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl animate-slide-in">
-        <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-4">
-            <h2 className="text-lg font-semibold">Varukorg</h2>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="w-8 h-8 hover:bg-gray-100 rounded-full"
-              onClick={() => dispatch({ type: 'TOGGLE_CART' })}
+    <Sheet>
+      <SheetContent className="w-full sm:max-w-[500px] p-0">
+        <SheetHeader className="p-6">
+          <SheetTitle>Varukorg</SheetTitle>
+        </SheetHeader>
+
+        <div className="px-6">
+          {state.cart.map((item) => (
+            <div
+              key={item.id}
+              className="flex items-center py-4 border-b last:border-b-0"
             >
-              <X className="h-5 w-5 text-gray-500" />
-            </Button>
-          </div>
+              <div className="relative w-[72px] h-[72px] mr-4">
+                {!imageLoaded[item.id] && (
+                  <Skeleton className="w-full h-full absolute" />
+                )}
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className={`w-full h-full object-contain ${
+                    !imageLoaded[item.id] ? 'invisible' : ''
+                  }`}
+                  onLoad={() => handleImageLoad(item.id)}
+                />
+              </div>
 
-          <div className="flex-1 overflow-y-auto p-4">
-            {state.cart.length === 0 ? (
-              <p className="text-center text-gray-500 mt-8">Din varukorg är tom</p>
-            ) : (
-              <ul className="space-y-4">
-                {state.cart.map((item) => (
-                  <li key={item.id} className="flex items-center space-x-4 pb-4 border-b border-gray-200">
-                    {item.image && (
-                      <div className="flex items-center w-12 h-12">
-                        {!loadedImages[item.id] && (
-                          <Skeleton className="w-12 h-12 rounded" />
-                        )}
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className={`w-12 h-12 object-contain ${loadedImages[item.id] ? 'visible' : 'hidden'}`}
-                          loading="lazy"
-                          onLoad={() => setLoadedImages(prev => ({ ...prev, [item.id]: true }))}
-                        />
-                      </div>
-                    )}
-                    <div className="flex-1">
-                      <h3 className="font-medium text-base">{item.name}</h3>
-                      <div className="text-sm text-[#222222]">{item.brand}, {item.volume}</div>
-                      <div className="text-base font-semibold text-[#222222] mt-1">{item.price} kr</div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <button
-                        className="p-1 rounded-full hover:bg-gray-200"
-                        onClick={() => dispatch({
-                          type: 'UPDATE_QUANTITY',
-                          payload: { id: item.id, quantity: Math.max(0, item.quantity - 1) }
-                        })}
-                      >
-                        <Minus className="w-4 h-4" />
-                      </button>
-                      <span className="w-8 text-center">{item.quantity}</span>
-                      <button
-                        className="p-1 rounded-full hover:bg-gray-200"
-                        onClick={() => dispatch({
-                          type: 'UPDATE_QUANTITY',
-                          payload: { id: item.id, quantity: item.quantity + 1 }
-                        })}
-                      >
-                        <Plus className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+              <div className="flex-1">
+                <div className="text-sm font-medium mb-1">{item.name}</div>
+                <div className="text-sm text-gray-600 mb-2">
+                  {item.brand}, {item.volume}
+                </div>
 
-          <div className="p-4 border-t">
-            <div className="flex justify-between mb-4">
-              <span className="font-semibold">Totalt:</span>
-              <span className="font-semibold">{total.toFixed(2)} kr</span>
+                <div className="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-1.5 w-fit">
+                  <button
+                    onClick={() => {
+                      dispatch({
+                        type: 'UPDATE_QUANTITY',
+                        payload: {
+                          id: item.id,
+                          quantity: Math.max(0, item.quantity - 1)
+                        }
+                      });
+                    }}
+                    className="text-gray-900 hover:text-gray-700"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="text-gray-900 min-w-[20px] text-center">
+                    {item.quantity}
+                  </span>
+                  <button
+                    onClick={() => {
+                      dispatch({
+                        type: 'UPDATE_QUANTITY',
+                        payload: {
+                          id: item.id,
+                          quantity: item.quantity + 1
+                        }
+                      });
+                    }}
+                    className="text-gray-900 hover:text-gray-700"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="text-right ml-4">
+                <div className="font-medium mb-1">
+                  {(item.price * item.quantity).toFixed(2)} kr
+                </div>
+                <div className="text-sm text-gray-600">{item.price.toFixed(2)} kr/st</div>
+              </div>
             </div>
-            <button
-              className="w-full bg-ica-red text-white text-sm font-semibold py-3 rounded-full hover:bg-red-700 transition-colors"
-              onClick={() => console.log('Proceed to checkout')}
-            >
-              Gå till kassan
-            </button>
-          </div>
+          ))}
         </div>
-      </div>
-    </div>
+      </SheetContent>
+    </Sheet>
   );
 };
 
