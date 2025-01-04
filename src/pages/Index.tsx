@@ -2,8 +2,7 @@ import { useStore } from '@/contexts/StoreContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { useSearchParams, useLocation } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ProductCard from '@/components/Products/ProductCard';
 import SearchResults from '@/components/Search/SearchResults';
 
@@ -70,8 +69,6 @@ const categories = [
 const Index = () => {
   const { state } = useStore();
   const [searchParams] = useSearchParams();
-  const location = useLocation();
-  const scrollPosition = useRef(0);
   const category = searchParams.get('category');
   const searchQuery = searchParams.get('search');
 
@@ -86,22 +83,6 @@ const Index = () => {
       return data;
     },
   });
-
-  // Save scroll position when leaving the page
-  useEffect(() => {
-    return () => {
-      scrollPosition.current = window.scrollY;
-    };
-  }, []);
-
-  // Restore scroll position when returning to the page
-  useEffect(() => {
-    if (location.state?.scrollRestoration) {
-      requestAnimationFrame(() => {
-        window.scrollTo(0, scrollPosition.current);
-      });
-    }
-  }, [location.state]);
 
   const storeName = stores?.[0]?.name || 'ICA Nära Laduvägen';
   const currentCategory = categories.find(c => c.id === category);

@@ -1,4 +1,4 @@
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, X } from "lucide-react";
 import { useStore } from "@/contexts/StoreContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -14,17 +14,10 @@ const Cart = () => {
   };
 
   return (
-    <Sheet open={state.isCartOpen} onOpenChange={() => dispatch({ type: 'TOGGLE_CART' })}>
+    <Sheet>
       <SheetContent className="w-full sm:max-w-[500px] p-0">
-        <SheetHeader className="p-6 flex items-center justify-between">
+        <SheetHeader className="p-6">
           <SheetTitle>Varukorg</SheetTitle>
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => dispatch({ type: 'TOGGLE_CART' })}
-          >
-            <img src="/assets/icons/exit_icon.svg" alt="Close" className="w-4 h-4" />
-          </Button>
         </SheetHeader>
 
         <div className="px-6">
@@ -74,8 +67,11 @@ const Cart = () => {
                   <button
                     onClick={() => {
                       dispatch({
-                        type: 'ADD_TO_CART',
-                        payload: { ...item, quantity: item.quantity }
+                        type: 'UPDATE_QUANTITY',
+                        payload: {
+                          id: item.id,
+                          quantity: item.quantity + 1
+                        }
                       });
                     }}
                     className="text-gray-900 hover:text-gray-700"
