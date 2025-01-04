@@ -1,8 +1,6 @@
 import { Plus, Minus } from "lucide-react";
 import { useStore } from "@/contexts/StoreContext";
 import { Link } from "react-router-dom";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useState } from "react";
 
 type ProductCardProps = {
   product: {
@@ -20,10 +18,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const { state, dispatch } = useStore();
   const cartItem = state.cart.find(item => item.id === product.id);
   const quantity = cartItem?.quantity || 0;
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent navigation when clicking the add button
     dispatch({
       type: 'ADD_TO_CART',
       payload: { ...product, quantity: 0 }
@@ -34,16 +31,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
     <Link to={`/product/${product.id}`} className="block">
       <div className="bg-white rounded-[20px] p-4 shadow-sm h-[320px] flex flex-col">
         <div className="flex flex-col items-center">
-          <div className="w-full h-[90px] flex items-start justify-center mb-6 relative">
-            {!imageLoaded && (
-              <Skeleton className="w-full h-[90px]" />
-            )}
+          <div className="w-full h-[90px] flex items-start justify-center mb-6">
             <img
               src={product.image}
               alt={product.name}
-              className={`h-full object-contain ${imageLoaded ? 'visible' : 'hidden'}`}
-              loading="lazy"
-              onLoad={() => setImageLoaded(true)}
+              className="h-full object-contain"
             />
           </div>
           <h2 className="text-base font-semibold text-center leading-tight mb-4">

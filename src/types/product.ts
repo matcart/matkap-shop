@@ -4,9 +4,8 @@ export interface Product {
   price: number;
   image?: string;
   quantity: number;
-  brand: string;
-  volume: string;
-  pricePerUnit?: string;
+  brand?: string;
+  volume?: string;
   description?: string;
   countryOfOrigin?: string;
   brand_full?: string;

@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useStore } from '@/contexts/StoreContext';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, X } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from '@tanstack/react-query';
@@ -30,17 +30,17 @@ const Header = () => {
     return 'icanarasundbyberg';
   };
 
-  const { data: store, isError } = useQuery({
+  const { data: store } = useQuery({
     queryKey: ['store', getSubdomain()],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('stores')
         .select('*')
         .eq('sub_domain', getSubdomain())
-        .maybeSingle();
+        .single();
       
       if (error) throw error;
-      return data as Store | null;
+      return data as Store;
     }
   });
 
@@ -63,12 +63,11 @@ const Header = () => {
             <img src="/assets/icons/burger.svg" alt="Menu" />
           </Button>
           
+          {/* Center logo and store name on mobile */}
           <div className="flex items-center gap-4 absolute left-1/2 -translate-x-1/2 lg:static lg:transform-none">
             <Link to="/" className="flex items-center">
               <img src="/assets/icons/ica_logo.svg" alt="ICA" className="h-[22px]" />
-              <span className="text-[#222222] font-medium ml-4">
-                {isError ? 'Error loading store' : (store?.name || 'Loading...')}
-              </span>
+              <span className="text-[#222222] font-medium ml-4">{store?.name || 'Loading...'}</span>
             </Link>
           </div>
 
@@ -93,11 +92,13 @@ const Header = () => {
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
-                type="search"
+                type="text"
                 placeholder="Sök bland alla varor..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-8 bg-[#F5F5F5] border-none hover:bg-[#ECEDEE] focus:bg-[#ECEDEE] transition-colors focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400 [&::-webkit-search-cancel-button]:hidden"
+                className="w-full pl-10 pr-8 bg-[#F5F5F5] border-none hover:bg-[#ECEDEE] focus:bg-[#ECEDEE] transition-colors focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400"
+                // Remove the default clear button
+                style={{ WebkitSearchDecoration: 'none', WebkitSearchCancel: 'none' }}
               />
               {searchQuery && (
                 <button
