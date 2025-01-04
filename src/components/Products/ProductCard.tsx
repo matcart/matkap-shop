@@ -51,7 +51,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className="text-sm font-medium mb-0.5">
             {product.brand}
           </div>
-          <div className="text-xs text-[#aaadb0] mb-2">
+          <div className="text-xs text-[#8A898C] mb-2">
             {product.pricePerUnit.replace('.', ',')}
           </div>
         </div>
