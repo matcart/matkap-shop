@@ -1,4 +1,4 @@
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, ShoppingCart } from "lucide-react";
 import { useStore } from '@/contexts/StoreContext';
 import { Product } from '@/types/product';
 
@@ -57,8 +57,9 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
       ) : (
         <button
           onClick={handleAddToCart}
-          className="bg-ica-red text-white rounded-full px-8 py-2 hover:bg-red-700 transition-colors w-fit"
+          className="bg-ica-red text-white rounded-full px-8 py-2 hover:bg-red-700 transition-colors w-fit flex items-center gap-2"
         >
+          <ShoppingCart className="w-4 h-4" />
           Lägg till i varukorg
         </button>
       )}
