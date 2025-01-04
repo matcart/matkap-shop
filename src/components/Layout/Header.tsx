@@ -3,7 +3,7 @@ import { useStore } from '@/contexts/StoreContext';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { useState } from 'react';
-import { Search, X, ShoppingCart } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from '@tanstack/react-query';
 
@@ -77,7 +77,7 @@ const Header = () => {
               onClick={() => dispatch({ type: 'TOGGLE_CART' })}
               className="bg-ica-red text-white rounded-full px-4 py-2 hover:bg-red-700 transition-colors flex items-center gap-2 relative"
             >
-              <ShoppingCart className="w-4 h-4" />
+              <img src="/assets/icons/cart.svg" alt="Cart" className="w-4 h-4 brightness-0 invert" />
               <span className="text-sm font-medium">{total.toFixed(2)} kr</span>
               {cartItemCount > 0 && (
                 <div className="absolute -top-1 -right-1 bg-[#303030] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
