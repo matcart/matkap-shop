@@ -1,7 +1,6 @@
-import { Plus, Minus, X } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { useStore } from "@/contexts/StoreContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 
@@ -14,7 +13,7 @@ const Cart = () => {
   };
 
   return (
-    <Sheet>
+    <Sheet open={state.isCartOpen} onOpenChange={() => dispatch({ type: 'TOGGLE_CART' })}>
       <SheetContent className="w-full sm:max-w-[500px] p-0">
         <SheetHeader className="p-6">
           <SheetTitle>Varukorg</SheetTitle>
