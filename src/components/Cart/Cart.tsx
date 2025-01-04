@@ -1,19 +1,12 @@
 import { X, Plus, Minus } from 'lucide-react';
 import { useStore } from '@/contexts/StoreContext';
 import { Button } from '../ui/button';
-import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const { state, dispatch } = useStore();
-  const navigate = useNavigate();
   const total = state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   if (!state.isCartOpen) return null;
-
-  const handleCheckout = () => {
-    dispatch({ type: 'TOGGLE_CART' });
-    navigate('/checkout');
-  };
 
   return (
     <div className="fixed inset-0 z-50">
@@ -83,7 +76,7 @@ const Cart = () => {
             </div>
             <button
               className="w-full bg-ica-red text-white text-sm font-semibold py-3 rounded-full hover:bg-red-700 transition-colors"
-              onClick={handleCheckout}
+              onClick={() => console.log('Proceed to checkout')}
             >
               Gå till kassan
             </button>

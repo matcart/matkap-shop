@@ -9,7 +9,6 @@ import CategorySidebar from "./components/Layout/CategorySidebar";
 import Cart from "./components/Cart/Cart";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
-import Checkout from "./pages/Checkout";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +25,6 @@ const App = () => (
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/product/:id" element={<ProductDetail />} />
-                  <Route path="/checkout" element={<Checkout />} />
                 </Routes>
               </main>
             </div>
