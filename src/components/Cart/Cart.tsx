@@ -1,4 +1,4 @@
-import { Plus, Minus, X } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { useStore } from "@/contexts/StoreContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ const Cart = () => {
             size="icon"
             onClick={() => dispatch({ type: 'TOGGLE_CART' })}
           >
-            <X className="h-4 w-4" />
+            <img src="/assets/icons/exit_icon.svg" alt="Close" className="w-4 h-4" />
           </Button>
         </SheetHeader>
 
