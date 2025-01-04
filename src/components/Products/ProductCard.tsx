@@ -27,6 +27,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
     });
   };
 
+  const formatPrice = (price: number) => {
+    return price.toFixed(2).replace('.', ',');
+  };
+
   return (
     <Link to={`/product/${product.id}`} className="block">
       <div className="bg-white rounded-[20px] p-4 shadow-sm h-[320px] flex flex-col">
@@ -47,14 +51,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className="text-sm font-medium mb-0.5">
             {product.brand}
           </div>
-          <div className="text-xs text-gray-600 mb-2">
-            {product.pricePerUnit}
+          <div className="text-xs text-gray-400 mb-2">
+            jmf pris {product.pricePerUnit.replace('.', ',')}kr/l
           </div>
         </div>
 
         <div className="flex items-center justify-between mt-auto">
           <div className="text-base font-semibold">
-            {product.price.toFixed(2)} kr
+            {formatPrice(product.price)} kr
           </div>
           
           {quantity > 0 ? (
