@@ -11,28 +11,10 @@ const ProductAccordion = ({ product }: ProductAccordionProps) => {
       <Accordion type="single" collapsible className="w-full [&>*:last-child]:border-none">
         <AccordionItem value="description" className="pt-0">
           <AccordionTrigger className="text-sm font-semibold hover:no-underline">
-            Produktinformation
+            Produktfakta
           </AccordionTrigger>
           <AccordionContent>
             <p className="text-gray-700 mb-8">{product.description}</p>
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="origin">
-          <AccordionTrigger className="text-sm font-semibold hover:no-underline">
-            Ursprungsland
-          </AccordionTrigger>
-          <AccordionContent>
-            <p className="text-gray-700">{product.countryOfOrigin}</p>
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="brand">
-          <AccordionTrigger className="text-sm font-semibold hover:no-underline">
-            Varumärke
-          </AccordionTrigger>
-          <AccordionContent>
-            <p className="text-gray-700">{product.brand_full}</p>
           </AccordionContent>
         </AccordionItem>
 
@@ -42,6 +24,19 @@ const ProductAccordion = ({ product }: ProductAccordionProps) => {
           </AccordionTrigger>
           <AccordionContent>
             <p className="text-gray-700">EKOLOGISK MELLANMJÖLK</p>
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="nutrition">
+          <AccordionTrigger className="text-sm font-semibold hover:no-underline">
+            Näringsvärde
+          </AccordionTrigger>
+          <AccordionContent>
+            <p className="text-gray-700">Näringsvärde per 100 ml:</p>
+            <p className="text-gray-700">Energi: 46 kcal/192 kJ</p>
+            <p className="text-gray-700">Fett: 1,5 g</p>
+            <p className="text-gray-700">Kolhydrater: 4,9 g</p>
+            <p className="text-gray-700">Protein: 3,4 g</p>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
