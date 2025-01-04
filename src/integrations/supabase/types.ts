@@ -201,6 +201,7 @@ export type Database = {
           name: string
           password: string
           store_type_id: number
+          sub_domain: string | null
         }
         Insert: {
           auth_id?: string | null
@@ -210,6 +211,7 @@ export type Database = {
           name: string
           password: string
           store_type_id: number
+          sub_domain?: string | null
         }
         Update: {
           auth_id?: string | null
@@ -219,6 +221,7 @@ export type Database = {
           name?: string
           password?: string
           store_type_id?: number
+          sub_domain?: string | null
         }
         Relationships: [
           {
