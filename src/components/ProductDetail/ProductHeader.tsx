@@ -6,7 +6,7 @@ const ProductHeader = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate(-1, { 
+    navigate('/', { 
       state: { 
         scrollRestoration: true 
       }

@@ -74,11 +74,8 @@ const Cart = () => {
                   <button
                     onClick={() => {
                       dispatch({
-                        type: 'UPDATE_QUANTITY',
-                        payload: {
-                          id: item.id,
-                          quantity: item.quantity + 1
-                        }
+                        type: 'ADD_TO_CART',
+                        payload: { ...item, quantity: item.quantity }
                       });
                     }}
                     className="text-gray-900 hover:text-gray-700"
