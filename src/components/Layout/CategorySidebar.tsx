@@ -5,23 +5,10 @@ import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useStore } from '@/contexts/StoreContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-
-const categories = [
-  { 
-    id: 'erbjudanden', 
-    name: 'Erbjudanden', 
-    icon: '/lovable-uploads/00ac429b-336d-455a-b07a-c5e9722254c3.png' 
-  },
-  { id: 'kott', name: 'Kött, Fågel & Fisk' },
-  { id: 'frukt', name: 'Frukt & Grönt' },
-  { id: 'mejeri', name: 'Mejeri & Ost' },
-  { id: 'brod', name: 'Bröd & Kakor' },
-  { id: 'vegetariskt', name: 'Vegetariskt' },
-  { id: 'fardigmat', name: 'Färdigmat' },
-  { id: 'barn', name: 'Barn' },
-  { id: 'traning', name: 'Träning' },
-  { id: 'hushall', name: 'Hushåll' },
-];
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { generateCategoriesMap } from '@/utils/categories';
+import type { Category } from '@/types/categories';
 
 const CategorySidebar = () => {
   const isMobile = useIsMobile();
@@ -29,6 +16,28 @@ const CategorySidebar = () => {
   const [searchParams] = useSearchParams();
   const selectedCategory = searchParams.get('category');
   const { state, dispatch } = useStore();
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('*')
+        .order('name');
+
+      if (error) throw error;
+
+      // Transform the data to match our Category type
+      return data.map((category) => ({
+        id: category.id,
+        name: category.name,
+        parentId: category.parent_id,
+        icon: category.id === 'erbjudanden' ? '/lovable-uploads/00ac429b-336d-455a-b07a-c5e9722254c3.png' : undefined
+      }));
+    }
+  });
+
+  const { rootCategories } = generateCategoriesMap(categories);
 
   const handleCategoryClick = (categoryId: string) => {
     navigate(`/?category=${categoryId}`);
@@ -40,7 +49,7 @@ const CategorySidebar = () => {
   const CategoryList = () => (
     <nav className="h-full">
       <ul>
-        {categories.map((category) => (
+        {rootCategories.map((category: Category) => (
           <li key={category.id}>
             <button
               onClick={() => handleCategoryClick(category.id)}
@@ -49,9 +58,9 @@ const CategorySidebar = () => {
                 ${category.id === 'erbjudanden' ? '' : 'border-t border-gray-200'}`}
             >
               <div className="flex items-center gap-3">
-                {category.id === 'erbjudanden' ? (
+                {category.icon && (
                   <img src={category.icon} alt="" className="w-4 h-4 text-gray-600" />
-                ) : null}
+                )}
                 <span className="text-sm font-medium text-gray-900">{category.name}</span>
               </div>
               <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 -mr-1" />

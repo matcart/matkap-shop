@@ -6,66 +6,6 @@ import { useSearchParams } from 'react-router-dom';
 import ProductCard from '@/components/Products/ProductCard';
 import SearchResults from '@/components/Search/SearchResults';
 
-const products = [
-  {
-    id: '1',
-    name: 'Mellanmjölk Färsk',
-    price: 19.90,
-    volume: '1,5 liter',
-    brand: 'Arla',
-    pricePerUnit: '13,93kr/l',
-    image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
-    quantity: 0,
-  },
-  {
-    id: '2',
-    name: 'Mellanmjölk Längre Hållbarhet',
-    price: 19.90,
-    volume: '1,5 liter',
-    brand: 'ICA',
-    pricePerUnit: '14,60kr/l',
-    image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
-    quantity: 0,
-  },
-  {
-    id: '3',
-    name: 'Mellanmjölk Färsk Ekologisk',
-    price: 24.90,
-    volume: '1,5 liter',
-    brand: 'Arla',
-    pricePerUnit: '16,60kr/l',
-    image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
-    quantity: 0,
-  },
-  {
-    id: '4',
-    name: 'Standardmjölk Färsk',
-    price: 23.90,
-    volume: '1,5 liter',
-    brand: 'Arla',
-    pricePerUnit: '15,93kr/l',
-    image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
-    quantity: 0,
-  },
-];
-
-const categories = [
-  { 
-    id: 'erbjudanden', 
-    name: 'Erbjudanden', 
-    icon: '/lovable-uploads/00ac429b-336d-455a-b07a-c5e9722254c3.png' 
-  },
-  { id: 'kott', name: 'Kött, Fågel & Fisk' },
-  { id: 'frukt', name: 'Frukt & Grönt' },
-  { id: 'mejeri', name: 'Mejeri & Ost' },
-  { id: 'brod', name: 'Bröd & Kakor' },
-  { id: 'vegetariskt', name: 'Vegetariskt' },
-  { id: 'fardigmat', name: 'Färdigmat' },
-  { id: 'barn', name: 'Barn' },
-  { id: 'traning', name: 'Träning' },
-  { id: 'hushall', name: 'Hushåll' },
-];
-
 const Index = () => {
   const { state } = useStore();
   const [searchParams] = useSearchParams();
@@ -94,6 +34,20 @@ const Index = () => {
       return data;
     },
   });
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('*');
+
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const currentCategory = categories.find(c => c.id === category);
 
   // Filter products based on search query if present
   const filteredProducts = searchQuery 

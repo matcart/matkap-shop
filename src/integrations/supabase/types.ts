@@ -11,19 +11,19 @@ export type Database = {
     Tables: {
       categories: {
         Row: {
-          created_at: string | null
+          created_at: string
           id: string
           name: string
           parent_id: string | null
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           id: string
           name: string
           parent_id?: string | null
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           id?: string
           name?: string
           parent_id?: string | null

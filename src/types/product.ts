@@ -7,4 +7,6 @@ export interface Product {
   brand: string;
   volume: string;
   pricePerUnit: string;
+  description?: string;
+  countryOfOrigin?: string;
 }
