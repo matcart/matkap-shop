@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { generateCategoriesMap } from '@/utils/categories';
+import { Category } from "@/types/categories";
 import CategoryList from './CategoryList';
 
 const CategorySidebar = () => {
@@ -34,12 +35,21 @@ const CategorySidebar = () => {
     }
   });
 
-  const { rootCategories } = generateCategoriesMap(categories);
+  const { categoriesMap, rootCategories } = generateCategoriesMap(categories);
+  const currentCategory = selectedCategory ? categoriesMap[selectedCategory] : null;
 
   const handleCategoryClick = (categoryId: string) => {
     navigate(`/?category=${categoryId}`);
     if (isMobile) {
       dispatch({ type: 'TOGGLE_SIDEBAR' });
+    }
+  };
+
+  const handleBackClick = () => {
+    if (currentCategory?.parentId) {
+      navigate(`/?category=${currentCategory.parentId}`);
+    } else {
+      navigate('/');
     }
   };
 
@@ -64,7 +74,9 @@ const CategorySidebar = () => {
             <CategoryList 
               rootCategories={rootCategories}
               selectedCategory={selectedCategory}
+              currentCategory={currentCategory}
               onCategoryClick={handleCategoryClick}
+              onBackClick={handleBackClick}
             />
           </div>
         </SheetContent>
@@ -82,7 +94,9 @@ const CategorySidebar = () => {
           <CategoryList 
             rootCategories={rootCategories}
             selectedCategory={selectedCategory}
+            currentCategory={currentCategory}
             onCategoryClick={handleCategoryClick}
+            onBackClick={handleBackClick}
           />
         </div>
       </aside>

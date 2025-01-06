@@ -65,11 +65,12 @@ const Index = () => {
       return data.map(product => ({
         id: product.product_id,
         name: product.name,
-        price: product.price.amount,
+        price: product.price?.amount || 0,
         brand: product.brand || '',
         volume: product.size?.text || '',
-        pricePerUnit: product.price.comparisonPrice || '',
-        image: product.image.url,
+        pricePerUnit: product.price?.comparisonPrice || '',
+        image: product.image?.url || '',
+        quantity: 1
       }));
     },
   });
