@@ -72,20 +72,28 @@ const Index = () => {
   const category = searchParams.get('category');
   const searchQuery = searchParams.get('search');
 
-  const { data: stores } = useQuery({
-    queryKey: ['stores'],
+  const getSubdomain = () => {
+    const hostname = window.location.hostname;
+    if (hostname.includes('matkap.se')) {
+      const subdomain = hostname.split('.')[0];
+      return subdomain;
+    }
+    return 'icademo';
+  };
+
+  const { data: store } = useQuery({
+    queryKey: ['store', getSubdomain()],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('stores')
-        .select('name');
+        .select('*')
+        .eq('sub_domain', getSubdomain())
+        .single();
 
       if (error) throw error;
       return data;
     },
   });
-
-  const storeName = stores?.[0]?.name || 'ICA Nära Laduvägen';
-  const currentCategory = categories.find(c => c.id === category);
 
   // Filter products based on search query if present
   const filteredProducts = searchQuery 
@@ -114,7 +122,7 @@ const Index = () => {
                 Välkommen till
               </h2>
               <h1 className="text-[25px] font-semibold text-gray-900">
-                {storeName}
+                {store?.name || 'Loading...'}
               </h1>
             </div>
           </div>
