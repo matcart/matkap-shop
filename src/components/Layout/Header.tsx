@@ -27,7 +27,7 @@ const Header = () => {
       const subdomain = hostname.split('.')[0];
       return subdomain;
     }
-    return 'icanarasundbyberg';
+    return 'icademo';
   };
 
   const { data: store } = useQuery({
@@ -38,7 +38,7 @@ const Header = () => {
         .select('*')
         .eq('sub_domain', getSubdomain())
         .single();
-      
+
       if (error) throw error;
       return data as Store;
     }
@@ -62,7 +62,7 @@ const Header = () => {
           >
             <img src="/assets/icons/burger.svg" alt="Menu" />
           </Button>
-          
+
           <div className="flex items-center gap-4 absolute left-1/2 -translate-x-1/2 lg:static lg:transform-none">
             <Link to="/" className="flex items-center">
               <img src="/assets/icons/ica_logo.svg" alt="ICA" className="h-[22px]" />
