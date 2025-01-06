@@ -3,8 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useSearchParams } from 'react-router-dom';
-import ProductCard from '@/components/Products/ProductCard';
+import ProductGrid from '@/components/Products/ProductGrid';
 import SearchResults from '@/components/Search/SearchResults';
+import WelcomeSection from '@/components/Layout/WelcomeSection';
 
 const Index = () => {
   const { state } = useStore();
@@ -47,6 +48,32 @@ const Index = () => {
     },
   });
 
+  const { data: products = [] } = useQuery({
+    queryKey: ['products', category],
+    queryFn: async () => {
+      const query = supabase
+        .from('products')
+        .select('*');
+
+      if (category) {
+        query.eq('category_id', category);
+      }
+
+      const { data, error } = await query;
+      if (error) throw error;
+
+      return data.map(product => ({
+        id: product.product_id,
+        name: product.name,
+        price: product.price.amount,
+        brand: product.brand || '',
+        volume: product.size?.text || '',
+        pricePerUnit: product.price.comparisonPrice || '',
+        image: product.image.url,
+      }));
+    },
+  });
+
   const currentCategory = categories.find(c => c.id === category);
 
   // Filter products based on search query if present
@@ -61,26 +88,7 @@ const Index = () => {
   if (!category && !searchQuery) {
     return (
       <div>
-        <div className="bg-white rounded-2xl overflow-hidden shadow-sm ml-0 lg:ml-[39px]">
-          <div className="flex flex-col md:flex-row h-[400px]">
-            <div className="w-full md:w-1/2 h-48 md:h-full relative">
-              <img
-                src="/assets/images/welcome.png"
-                alt="Welcome"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <div className="w-full md:w-1/2 bg-white p-8 flex flex-col justify-center items-center text-center">
-              <h2 className="text-ica-red text-base font-semibold mb-2">
-                Välkommen till
-              </h2>
-              <h1 className="text-[25px] font-semibold text-gray-900">
-                {store?.name || 'Loading...'}
-              </h1>
-            </div>
-          </div>
-        </div>
+        <WelcomeSection storeName={store?.name} />
       </div>
     );
   }
@@ -124,11 +132,7 @@ const Index = () => {
         </Breadcrumb>
       </nav>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-        {filteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      <ProductGrid products={filteredProducts} />
     </div>
   );
 };
