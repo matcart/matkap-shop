@@ -11,7 +11,7 @@ export const getProducts = async (categoryId?: string): Promise<Product[]> => {
   const { data, error } = await query;
   if (error) throw error;
 
-  return data.map((product: ProductResponse): Product => ({
+  return data.map((product): Product => ({
     id: product.product_id,
     name: product.name,
     price: product.price?.amount ? Number(product.price.amount) : 0,

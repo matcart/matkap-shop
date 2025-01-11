@@ -10,6 +10,18 @@ import Breadcrumbs from '@/components/BreadCrumbs';
 import { getProducts } from '@/api/products';
 import { getCategories } from '@/api/categories';
 
+const getCategoryHierarchy = (categoryId: string, categoriesMap: Record<string, Category>): Category[] => {
+  const hierarchy: Category[] = [];
+  let currentCategory = categoriesMap[categoryId];
+
+  while (currentCategory) {
+    hierarchy.unshift(currentCategory);
+    currentCategory = currentCategory.parentId ? categoriesMap[currentCategory.parentId] : null;
+  }
+
+  return hierarchy;
+};
+
 const Index = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get('category');
@@ -33,22 +45,10 @@ const Index = () => {
     ? getCategoryHierarchy(currentCategory.id, categoriesMap) 
     : [];
 
-  const getCategoryHierarchy = (categoryId: string, categoriesMap: Record<string, Category>): Category[] => {
-    const hierarchy: Category[] = [];
-    let currentCategory = categoriesMap[categoryId];
-
-    while (currentCategory) {
-      hierarchy.unshift(currentCategory);
-      currentCategory = currentCategory.parentId ? categoriesMap[currentCategory.parentId] : null;
-    }
-
-    return hierarchy;
-  };
-
   if (!category && !searchQuery) {
     return (
       <div>
-        <WelcomeSection />
+        <WelcomeSection storeName="ICA" />
       </div>
     );
   }

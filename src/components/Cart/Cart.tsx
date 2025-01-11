@@ -39,7 +39,9 @@ const Cart = () => {
                     )}
                     <div className="flex-1">
                       <h3 className="font-medium text-base">{item.name}</h3>
-                      <div className="text-sm text-[#222222]">{item.brand}, {item.volume}</div>
+                      <div className="text-sm text-[#222222]">
+                        {item.brand && item.volume ? `${item.brand}, ${item.volume}` : item.brand || item.volume}
+                      </div>
                       <div className="text-base font-semibold text-[#222222] mt-1">{item.price} kr</div>
                     </div>
                     <div className="flex items-center space-x-2">

@@ -2,10 +2,10 @@ export interface Product {
   id: string;
   name: string;
   price: number;
-  brand: string;
-  volume: string;
-  pricePerUnit: string;
-  image: string;
+  brand?: string;
+  volume?: string;
+  pricePerUnit?: string;
+  image?: string;
   quantity: number;
   description?: string;
 }
@@ -18,10 +18,10 @@ export interface ProductResponse {
     comparisonPrice: string;
   };
   brand?: string;
-  size: {
+  size?: {
     text: string;
   };
-  image: {
+  image?: {
     url: string;
   };
   description?: string;
