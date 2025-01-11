@@ -45,7 +45,13 @@ const Index = () => {
   const { data: products = [], isLoading: isLoadingProducts } = useQuery({
     queryKey: ['products', selectedCategory?.id],
     queryFn: () => getProducts(selectedCategory?.id),
-    enabled: !!selectedCategory
+    enabled: !searchQuery && !!selectedCategory
+  });
+
+  const { data: searchResults = [] } = useQuery({
+    queryKey: ['products', 'search', searchQuery],
+    queryFn: () => getProducts(undefined, searchQuery),
+    enabled: !!searchQuery
   });
 
   const { categoriesMap } = generateCategoriesMap(categories);
@@ -64,7 +70,7 @@ const Index = () => {
   if (searchQuery) {
     return (
       <div className="px-[39px]">
-        <SearchResults searchQuery={searchQuery} products={products} />
+        <SearchResults searchQuery={searchQuery} products={searchResults} />
       </div>
     );
   }
