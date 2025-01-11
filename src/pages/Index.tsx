@@ -76,7 +76,12 @@ const Index = () => {
         categoryHierarchy={categoryHierarchy}
         currentCategory={selectedCategory}
       />
-      <ProductGrid products={products} isLoading={isLoadingProducts} />
+      <ProductGrid 
+        products={products} 
+        isLoading={isLoadingProducts} 
+        searchQuery={searchQuery}
+        selectedCategory={selectedCategory}
+      />
     </div>
   );
 };

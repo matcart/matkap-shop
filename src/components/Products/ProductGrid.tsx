@@ -2,13 +2,16 @@ import ProductCard from './ProductCard';
 import { Product } from '@/types/product';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PackageSearch } from 'lucide-react';
+import { Category } from '@/types/categories';
 
 interface ProductGridProps {
   products: Product[];
   isLoading?: boolean;
+  searchQuery?: string | null;
+  selectedCategory?: Category | null;
 }
 
-const ProductGrid = ({ products, isLoading }: ProductGridProps) => {
+const ProductGrid = ({ products, isLoading, searchQuery, selectedCategory }: ProductGridProps) => {
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
@@ -37,7 +40,12 @@ const ProductGrid = ({ products, isLoading }: ProductGridProps) => {
         <PackageSearch className="w-16 h-16 text-gray-400 mb-4" />
         <h3 className="text-xl font-semibold text-gray-900 mb-2">Inga produkter hittades</h3>
         <p className="text-gray-500 text-center max-w-md">
-          Vi kunde inte hitta några produkter som matchar din sökning. Försök med andra söktermer eller bläddra i våra kategorier.
+          {searchQuery 
+            ? `Vi kunde inte hitta några produkter för "${searchQuery}"`
+            : selectedCategory
+              ? `Vi kunde inte hitta några produkter inom ${selectedCategory.name}`
+              : "Vi kunde inte hitta några produkter. Försök med andra söktermer eller bläddra i våra kategorier."
+          }
         </p>
       </div>
     );
