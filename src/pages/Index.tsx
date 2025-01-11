@@ -67,6 +67,7 @@ const Index = () => {
     );
   }
 
+  // If we're searching, show search results regardless of selected category
   if (searchQuery) {
     return (
       <div className="px-[39px]">
@@ -79,6 +80,7 @@ const Index = () => {
     );
   }
 
+  // Only show category results if we're not searching
   return (
     <div className="mx-auto px-[39px]">
       <Breadcrumbs

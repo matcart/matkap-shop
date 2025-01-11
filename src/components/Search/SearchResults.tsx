@@ -31,7 +31,7 @@ const SearchResults = ({ searchQuery, products, isLoading }: SearchResultsProps)
         <PackageSearch className="w-16 h-16 text-gray-400 mb-4" />
         <h3 className="text-xl font-semibold text-gray-900 mb-2">Inga produkter hittades</h3>
         <p className="text-gray-500 text-center max-w-md">
-          Vi kunde inte hitta några produkter för '{searchQuery}'
+          Vi kunde inte hitta några produkter för "{searchQuery}"
         </p>
       </div>
     );
