@@ -6,25 +6,19 @@ interface CategoryListProps {
   rootCategories: Category[];
   selectedCategory: string | null;
   currentCategory: Category | null;
-  onCategoryClick: (categoryId: string) => void;
+  onCategoryClick: (category: Category) => void;
   onBackClick: () => void;
 }
 
-const CategoryList = ({ 
-  rootCategories, 
-  selectedCategory, 
+const CategoryList = ({
+  rootCategories,
+  selectedCategory,
   currentCategory,
   onCategoryClick,
-  onBackClick 
+  onBackClick
 }: CategoryListProps) => {
   const navigate = useNavigate();
   const categories = currentCategory ? currentCategory.children : rootCategories;
-
-  const handleViewAll = () => {
-    if (currentCategory) {
-      navigate(`/?category=${currentCategory.id}&view=all`);
-    }
-  };
 
   const handleCategoryClick = (category: Category) => {
     if (!category.children || category.children.length === 0) {
@@ -32,7 +26,7 @@ const CategoryList = ({
       navigate(`/?category=${category.id}&view=all`);
     } else {
       // For non-leaf categories, update the sidebar navigation
-      onCategoryClick(category.id);
+      onCategoryClick(category);
     }
   };
 

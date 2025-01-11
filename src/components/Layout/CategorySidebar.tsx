@@ -6,8 +6,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { generateCategoriesMap } from '@/utils/categories';
-import { Category } from "@/types/categories";
 import CategoryList from './CategoryList';
+import { Category } from "@/types/categories";
 
 const CategorySidebar = () => {
   const isMobile = useIsMobile();
@@ -38,9 +38,10 @@ const CategorySidebar = () => {
   const { categoriesMap, rootCategories } = generateCategoriesMap(categories);
   const currentCategory = selectedCategory ? categoriesMap[selectedCategory] : null;
 
-  const handleCategoryClick = (categoryId: string) => {
-    navigate(`/?category=${categoryId}`);
-    if (isMobile) {
+  const handleCategoryClick = (category: Category) => {
+    console.log("category: ", category)
+    navigate(`/?category=${category.id}`);
+    if (isMobile && category.children.length === 0) {
       dispatch({ type: 'TOGGLE_SIDEBAR' });
     }
   };
@@ -71,7 +72,7 @@ const CategorySidebar = () => {
             </div>
           </SheetHeader>
           <div className="overflow-y-auto h-[calc(100vh-5rem)]">
-            <CategoryList 
+            <CategoryList
               rootCategories={rootCategories}
               selectedCategory={selectedCategory}
               currentCategory={currentCategory}
@@ -91,7 +92,7 @@ const CategorySidebar = () => {
           <h2 className="text-lg font-semibold text-gray-900">Kategorier</h2>
         </div>
         <div className="overflow-y-auto max-h-[calc(100vh-12rem)]">
-          <CategoryList 
+          <CategoryList
             rootCategories={rootCategories}
             selectedCategory={selectedCategory}
             currentCategory={currentCategory}
