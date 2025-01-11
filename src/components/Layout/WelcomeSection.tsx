@@ -1,7 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
-import { useStore } from '@/contexts/StoreContext';
-import { useEffect } from 'react';
 
 interface Store {
   id: number;
@@ -11,8 +9,6 @@ interface Store {
 }
 
 const WelcomeSection = () => {
-  const { dispatch } = useStore();
-  
   const getSubdomain = () => {
     const hostname = window.location.hostname;
     if (hostname.includes('matkap.se')) {
@@ -35,12 +31,6 @@ const WelcomeSection = () => {
       return data as Store;
     }
   });
-
-  useEffect(() => {
-    if (store) {
-      dispatch({ type: 'SET_STORE', payload: store });
-    }
-  }, [store, dispatch]);
 
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm ml-0 lg:ml-[39px]">

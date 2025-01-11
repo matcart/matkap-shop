@@ -1,6 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
 import { Product } from "@/types/product";
-import { MOCK_PRODUCTS } from "@/constants/mockProducts";
 
 export const getProducts = async (categoryId?: string, searchQuery?: string): Promise<Product[]> => {
   const query = supabase.from('products').select('*');
@@ -15,15 +14,6 @@ export const getProducts = async (categoryId?: string, searchQuery?: string): Pr
 
   const { data, error } = await query;
   if (error) throw error;
-
-  // If we're in the demo store and the category is 'Frukt & Grönt'
-  // and we have no results, return mock products
-  const isDemoStore = store?.name === 'Demo';
-  const isFruktOchGront = categoryId === 'frukt-och-gront';
-  
-  if (isDemoStore && isFruktOchGront && (!data || data.length === 0)) {
-    return MOCK_PRODUCTS;
-  }
 
   return data.map((product): Product => ({
     id: product.product_id,
