@@ -1,11 +1,15 @@
 import { supabase } from "@/integrations/supabase/client";
 import { Product } from "@/types/product";
 
-export const getProducts = async (categoryId?: string): Promise<Product[]> => {
+export const getProducts = async (categoryId?: string, searchQuery?: string): Promise<Product[]> => {
   const query = supabase.from('products').select('*');
 
   if (categoryId) {
     query.eq('category_id', categoryId);
+  }
+
+  if (searchQuery) {
+    query.ilike('name', `%${searchQuery}%`);
   }
 
   const { data, error } = await query;

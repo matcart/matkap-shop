@@ -7,7 +7,7 @@ export interface Product {
   pricePerUnit: string;
   image: string;
   quantity: number;
-  description: string;
+  description?: string;
 }
 
 export interface ProductResponse {

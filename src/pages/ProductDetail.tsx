@@ -25,6 +25,7 @@ const products = [
     brand: 'ICA',
     pricePerUnit: '14,60kr/l',
     image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
+    description: '',
     quantity: 0,
   },
   {
@@ -35,6 +36,7 @@ const products = [
     brand: 'Arla',
     pricePerUnit: '16,60kr/l',
     image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
+    description: '',
     quantity: 0,
   },
   {
@@ -45,6 +47,7 @@ const products = [
     brand: 'Arla',
     pricePerUnit: '15,93kr/l',
     image: '/lovable-uploads/342bd940-31eb-4e14-bcc1-177dad0228da.png',
+    description: '',
     quantity: 0,
   },
 ];
