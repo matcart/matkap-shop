@@ -8,12 +8,14 @@ import ProductGrid from '@/components/Products/ProductGrid';
 import SearchResults from '@/components/Search/SearchResults';
 import WelcomeSection from '@/components/Layout/WelcomeSection';
 import { Category } from '@/types/categories';
+import { ProductResponse, Product } from '@/types/product';
 import { generateCategoriesMap } from '@/utils/categories';
 
 const Index = () => {
   const { state } = useStore();
   const [searchParams] = useSearchParams();
   const category = searchParams.get('category');
+  const view = searchParams.get('view');
   const searchQuery = searchParams.get('search');
 
   const getSubdomain = () => {
@@ -53,6 +55,7 @@ const Index = () => {
 
   const { data: products = [] } = useQuery({
     queryKey: ['products', category],
+    enabled: !!category && !!view,
     queryFn: async () => {
       const query = supabase
         .from('products')
@@ -65,14 +68,14 @@ const Index = () => {
       const { data, error } = await query;
       if (error) throw error;
 
-      return data.map(product => ({
+      return (data as ProductResponse[]).map(product => ({
         id: product.product_id,
         name: product.name,
-        price: typeof product.price === 'object' && product.price?.amount ? Number(product.price.amount) : 0,
+        price: product.price?.amount ? Number(product.price.amount) : 0,
         brand: product.brand || '',
-        volume: typeof product.size === 'object' && product.size?.text ? product.size.text : '',
-        pricePerUnit: typeof product.price === 'object' && product.price?.comparisonPrice ? product.price.comparisonPrice : '',
-        image: typeof product.image === 'object' && product.image?.url ? product.image.url : '',
+        volume: product.size?.text || '',
+        pricePerUnit: product.price?.comparisonPrice || '',
+        image: product.image?.url || '',
         quantity: 1
       }));
     },
@@ -117,6 +120,11 @@ const Index = () => {
         <SearchResults searchQuery={searchQuery} products={products} />
       </div>
     );
+  }
+
+  // Only show breadcrumbs and products when viewing category products
+  if (!view) {
+    return <div />; // Empty div when just browsing categories
   }
 
   return (

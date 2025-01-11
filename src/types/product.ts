@@ -7,5 +7,20 @@ export interface Product {
   pricePerUnit: string;
   image: string;
   quantity: number;
-  description?: string;
+}
+
+export interface ProductResponse {
+  product_id: string;
+  name: string;
+  price: {
+    amount: string;
+    comparisonPrice: string;
+  };
+  brand?: string;
+  size: {
+    text: string;
+  };
+  image: {
+    url: string;
+  };
 }
