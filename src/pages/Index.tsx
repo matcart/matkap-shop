@@ -1,8 +1,9 @@
+import React from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useStore } from '@/contexts/StoreContext';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { useSearchParams } from 'react-router-dom';
 import ProductGrid from '@/components/Products/ProductGrid';
 import SearchResults from '@/components/Search/SearchResults';
 import WelcomeSection from '@/components/Layout/WelcomeSection';
@@ -67,11 +68,11 @@ const Index = () => {
       return data.map(product => ({
         id: product.product_id,
         name: product.name,
-        price: product.price?.amount ? Number(product.price.amount) : 0,
+        price: typeof product.price === 'object' && product.price?.amount ? Number(product.price.amount) : 0,
         brand: product.brand || '',
-        volume: product.size?.text || '',
-        pricePerUnit: product.price?.comparisonPrice || '',
-        image: product.image?.url || '',
+        volume: typeof product.size === 'object' && product.size?.text ? product.size.text : '',
+        pricePerUnit: typeof product.price === 'object' && product.price?.comparisonPrice ? product.price.comparisonPrice : '',
+        image: typeof product.image === 'object' && product.image?.url ? product.image.url : '',
         quantity: 1
       }));
     },
@@ -83,7 +84,6 @@ const Index = () => {
     parentId: cat.parent_id,
   })));
 
-  // Function to build category hierarchy
   const getCategoryHierarchy = (categoryId: string): Category[] => {
     const hierarchy: Category[] = [];
     let currentCategory = categoriesMap[categoryId];
@@ -103,7 +103,6 @@ const Index = () => {
   const currentCategory = category ? categoriesMap[category] : null;
   const categoryHierarchy = currentCategory ? getCategoryHierarchy(currentCategory.id) : [];
 
-  // Show home page if no category or search query
   if (!category && !searchQuery) {
     return (
       <div>
@@ -112,7 +111,6 @@ const Index = () => {
     );
   }
 
-  // Show search results
   if (searchQuery) {
     return (
       <div className="px-[39px]">
@@ -121,7 +119,6 @@ const Index = () => {
     );
   }
 
-  // Show category products
   return (
     <div className="mx-auto px-[39px]">
       <nav className="text-sm mb-8 text-gray-600">
