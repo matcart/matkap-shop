@@ -6,5 +6,6 @@ export interface Product {
   volume: string;
   pricePerUnit: string;
   image: string;
-  quantity?: number;
+  quantity: number;
+  description?: string;
 }

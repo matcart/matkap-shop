@@ -6,6 +6,8 @@ import { useSearchParams } from 'react-router-dom';
 import ProductGrid from '@/components/Products/ProductGrid';
 import SearchResults from '@/components/Search/SearchResults';
 import WelcomeSection from '@/components/Layout/WelcomeSection';
+import { Category } from '@/types/categories';
+import { generateCategoriesMap } from '@/utils/categories';
 
 const Index = () => {
   const { state } = useStore();
@@ -65,7 +67,7 @@ const Index = () => {
       return data.map(product => ({
         id: product.product_id,
         name: product.name,
-        price: product.price?.amount || 0,
+        price: product.price?.amount ? Number(product.price.amount) : 0,
         brand: product.brand || '',
         volume: product.size?.text || '',
         pricePerUnit: product.price?.comparisonPrice || '',
@@ -75,15 +77,31 @@ const Index = () => {
     },
   });
 
-  const currentCategory = categories.find(c => c.id === category);
+  const { categoriesMap } = generateCategoriesMap(categories.map(cat => ({
+    id: cat.id,
+    name: cat.name,
+    parentId: cat.parent_id,
+  })));
 
-  // Filter products based on search query if present
-  const filteredProducts = searchQuery 
-    ? products.filter(product => 
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.brand.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : products;
+  // Function to build category hierarchy
+  const getCategoryHierarchy = (categoryId: string): Category[] => {
+    const hierarchy: Category[] = [];
+    let currentCategory = categoriesMap[categoryId];
+    
+    while (currentCategory) {
+      hierarchy.unshift(currentCategory);
+      if (currentCategory.parentId) {
+        currentCategory = categoriesMap[currentCategory.parentId];
+      } else {
+        break;
+      }
+    }
+    
+    return hierarchy;
+  };
+
+  const currentCategory = category ? categoriesMap[category] : null;
+  const categoryHierarchy = currentCategory ? getCategoryHierarchy(currentCategory.id) : [];
 
   // Show home page if no category or search query
   if (!category && !searchQuery) {
@@ -98,7 +116,7 @@ const Index = () => {
   if (searchQuery) {
     return (
       <div className="px-[39px]">
-        <SearchResults searchQuery={searchQuery} products={filteredProducts} />
+        <SearchResults searchQuery={searchQuery} products={products} />
       </div>
     );
   }
@@ -121,19 +139,29 @@ const Index = () => {
                 <BreadcrumbItem>
                   <BreadcrumbLink href="/">Kategorier</BreadcrumbLink>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage className="font-semibold text-gray-900">
-                    {currentCategory?.name}
-                  </BreadcrumbPage>
-                </BreadcrumbItem>
+                {categoryHierarchy.map((cat, index) => (
+                  <React.Fragment key={cat.id}>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      {index === categoryHierarchy.length - 1 ? (
+                        <BreadcrumbPage className="font-semibold text-gray-900">
+                          {cat.name}
+                        </BreadcrumbPage>
+                      ) : (
+                        <BreadcrumbLink href={`/?category=${cat.id}`}>
+                          {cat.name}
+                        </BreadcrumbLink>
+                      )}
+                    </BreadcrumbItem>
+                  </React.Fragment>
+                ))}
               </>
             )}
           </BreadcrumbList>
         </Breadcrumb>
       </nav>
 
-      <ProductGrid products={filteredProducts} />
+      <ProductGrid products={products} />
     </div>
   );
 };
