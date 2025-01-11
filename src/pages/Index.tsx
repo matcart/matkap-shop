@@ -42,13 +42,13 @@ const Index = () => {
     queryFn: getCategories
   });
 
-  const { data: products = [], isLoading: isLoadingProducts } = useQuery({
+  const { data: categoryProducts = [], isLoading: isLoadingCategoryProducts } = useQuery({
     queryKey: ['products', selectedCategory?.id],
     queryFn: () => getProducts(selectedCategory?.id),
     enabled: !searchQuery && !!selectedCategory
   });
 
-  const { data: searchResults = [] } = useQuery({
+  const { data: searchResults = [], isLoading: isLoadingSearch } = useQuery({
     queryKey: ['products', 'search', searchQuery],
     queryFn: () => getProducts(undefined, searchQuery),
     enabled: !!searchQuery
@@ -83,9 +83,8 @@ const Index = () => {
         currentCategory={selectedCategory}
       />
       <ProductGrid 
-        products={products} 
-        isLoading={isLoadingProducts} 
-        searchQuery={searchQuery}
+        products={categoryProducts} 
+        isLoading={isLoadingCategoryProducts}
         selectedCategory={selectedCategory}
       />
     </div>
