@@ -18,15 +18,15 @@ const ProductGrid = ({ products, isLoading, searchQuery, selectedCategory }: Pro
         {Array.from({ length: 8 }).map((_, index) => (
           <div key={index} className="bg-white rounded-[20px] p-4 shadow-sm h-[320px] flex flex-col">
             <div className="flex flex-col items-center">
-              <Skeleton className="w-full h-[90px] mb-6" />
-              <Skeleton className="h-4 w-3/4 mb-4" />
-              <Skeleton className="h-4 w-1/4 mb-1" />
-              <Skeleton className="h-4 w-1/2 mb-0.5" />
-              <Skeleton className="h-4 w-1/3 mb-2" />
+              <Skeleton className="w-[120px] h-[90px] mb-6 bg-gray-100" />
+              <Skeleton className="w-[180px] h-5 mb-4 bg-gray-100" />
+              <Skeleton className="w-[80px] h-4 mb-1 bg-gray-100" />
+              <Skeleton className="w-[100px] h-4 mb-0.5 bg-gray-100" />
+              <Skeleton className="w-[60px] h-4 mb-2 bg-gray-100" />
             </div>
             <div className="flex items-center justify-between mt-auto">
-              <Skeleton className="h-6 w-20" />
-              <Skeleton className="h-[36px] w-[36px] rounded-full" />
+              <Skeleton className="w-[60px] h-6 bg-gray-100" />
+              <Skeleton className="w-[36px] h-[36px] rounded-full bg-gray-100" />
             </div>
           </div>
         ))}
