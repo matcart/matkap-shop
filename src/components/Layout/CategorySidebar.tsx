@@ -2,7 +2,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useStore } from '@/contexts/StoreContext';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { generateCategoriesMap } from '@/utils/categories';
@@ -11,9 +10,6 @@ import { Category } from "@/types/categories";
 
 const CategorySidebar = () => {
   const isMobile = useIsMobile();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const selectedCategory = searchParams.get('category');
   const { state, dispatch } = useStore();
 
   const { data: categories = [] } = useQuery({
@@ -36,21 +32,14 @@ const CategorySidebar = () => {
   });
 
   const { categoriesMap, rootCategories } = generateCategoriesMap(categories);
-  const currentCategory = selectedCategory ? categoriesMap[selectedCategory] : null;
-
-  const handleCategoryClick = (category: Category) => {
-    console.log("category: ", category)
-    navigate(`/?category=${category.id}`);
-    if (isMobile && category.children.length === 0) {
-      dispatch({ type: 'TOGGLE_SIDEBAR' });
-    }
-  };
 
   const handleBackClick = () => {
+    const currentCategory = state.currentCategory;
     if (currentCategory?.parentId) {
-      navigate(`/?category=${currentCategory.parentId}`);
+      const parentCategory = categoriesMap[currentCategory.parentId];
+      dispatch({ type: 'SET_CURRENT_CATEGORY', payload: parentCategory });
     } else {
-      navigate('/');
+      dispatch({ type: 'SET_CURRENT_CATEGORY', payload: null });
     }
   };
 
@@ -74,9 +63,6 @@ const CategorySidebar = () => {
           <div className="overflow-y-auto h-[calc(100vh-5rem)]">
             <CategoryList
               rootCategories={rootCategories}
-              selectedCategory={selectedCategory}
-              currentCategory={currentCategory}
-              onCategoryClick={handleCategoryClick}
               onBackClick={handleBackClick}
             />
           </div>
@@ -94,9 +80,6 @@ const CategorySidebar = () => {
         <div className="overflow-y-auto max-h-[calc(100vh-12rem)]">
           <CategoryList
             rootCategories={rootCategories}
-            selectedCategory={selectedCategory}
-            currentCategory={currentCategory}
-            onCategoryClick={handleCategoryClick}
             onBackClick={handleBackClick}
           />
         </div>

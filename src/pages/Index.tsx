@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import ProductGrid from '@/components/Products/ProductGrid';
 import SearchResults from '@/components/Search/SearchResults';
@@ -9,6 +8,8 @@ import { generateCategoriesMap } from '@/utils/categories';
 import Breadcrumbs from '@/components/BreadCrumbs';
 import { getProducts } from '@/api/products';
 import { getCategories } from '@/api/categories';
+import { useStore } from '@/contexts/StoreContext';
+import { useSearchParams } from 'react-router-dom';
 
 const getCategoryHierarchy = (categoryId: string, categoriesMap: Record<string, Category>): Category[] => {
   const hierarchy: Category[] = [];
@@ -24,9 +25,9 @@ const getCategoryHierarchy = (categoryId: string, categoriesMap: Record<string, 
 
 const Index = () => {
   const [searchParams] = useSearchParams();
-  const category = searchParams.get('category');
-  const view = searchParams.get('view');
   const searchQuery = searchParams.get('search');
+  const { state } = useStore();
+  const { selectedCategory } = state;
 
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
@@ -34,18 +35,17 @@ const Index = () => {
   });
 
   const { data: products = [] } = useQuery({
-    queryKey: ['products', category],
-    queryFn: () => getProducts(category || undefined),
-    enabled: !!category && !!view
+    queryKey: ['products', selectedCategory?.id],
+    queryFn: () => getProducts(selectedCategory?.id),
+    enabled: !!selectedCategory
   });
 
   const { categoriesMap } = generateCategoriesMap(categories);
-  const currentCategory = category ? categoriesMap[category] : null;
-  const categoryHierarchy = currentCategory 
-    ? getCategoryHierarchy(currentCategory.id, categoriesMap) 
+  const categoryHierarchy = selectedCategory 
+    ? getCategoryHierarchy(selectedCategory.id, categoriesMap) 
     : [];
 
-  if (!category && !searchQuery) {
+  if (!selectedCategory && !searchQuery) {
     return (
       <div>
         <WelcomeSection storeName="ICA" />
@@ -61,16 +61,12 @@ const Index = () => {
     );
   }
 
-  if (!view) {
-    return <div />; // Empty state when just browsing categories
-  }
-
   return (
     <div className="mx-auto px-[39px]">
       <Breadcrumbs
-        category={category}
+        category={selectedCategory?.id || null}
         categoryHierarchy={categoryHierarchy}
-        currentCategory={currentCategory}
+        currentCategory={selectedCategory}
       />
       <ProductGrid products={products} />
     </div>

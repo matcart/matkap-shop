@@ -1,30 +1,40 @@
 import React, { createContext, useContext, useReducer } from 'react';
+import { Category } from '@/types/categories';
 
 interface Product {
   id: string;
   name: string;
   price: number;
+  brand?: string;
+  volume?: string;
+  pricePerUnit?: string;
   image?: string;
-  description?: string;
   quantity: number;
+  description?: string;
 }
 
 interface State {
   cart: Product[];
   isCartOpen: boolean;
   isSidebarOpen: boolean;
+  currentCategory: Category | null;
+  selectedCategory: Category | null;
 }
 
 type Action =
   | { type: 'ADD_TO_CART'; payload: Product }
   | { type: 'UPDATE_QUANTITY'; payload: { id: string; quantity: number } }
   | { type: 'TOGGLE_CART' }
-  | { type: 'TOGGLE_SIDEBAR' };
+  | { type: 'TOGGLE_SIDEBAR' }
+  | { type: 'SET_CURRENT_CATEGORY'; payload: Category | null }
+  | { type: 'SET_SELECTED_CATEGORY'; payload: Category | null };
 
 const initialState: State = {
   cart: [],
   isCartOpen: false,
   isSidebarOpen: false,
+  currentCategory: null,
+  selectedCategory: null,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -70,6 +80,16 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         isSidebarOpen: !state.isSidebarOpen,
+      };
+    case 'SET_CURRENT_CATEGORY':
+      return {
+        ...state,
+        currentCategory: action.payload,
+      };
+    case 'SET_SELECTED_CATEGORY':
+      return {
+        ...state,
+        selectedCategory: action.payload,
       };
     default:
       return state;
