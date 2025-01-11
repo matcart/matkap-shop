@@ -16,12 +16,12 @@ export const getProducts = async (categoryId?: string, searchQuery?: string): Pr
   const { data, error } = await query;
   if (error) throw error;
 
-  // If we're in the demo store (checking for localhost) and the category is 'Frukt & Grönt'
+  // If we're in the demo store and the category is 'Frukt & Grönt'
   // and we have no results, return mock products
-  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const isDemoStore = window.location.pathname.startsWith('/demo');
   const isFruktOchGront = categoryId === 'frukt-och-gront';
   
-  if (isLocalhost && isFruktOchGront && (!data || data.length === 0)) {
+  if (isDemoStore && isFruktOchGront && (!data || data.length === 0)) {
     return MOCK_PRODUCTS;
   }
 
