@@ -70,7 +70,11 @@ const Index = () => {
   if (searchQuery) {
     return (
       <div className="px-[39px]">
-        <SearchResults searchQuery={searchQuery} products={searchResults} />
+        <SearchResults 
+          searchQuery={searchQuery} 
+          products={searchResults} 
+          isLoading={isLoadingSearch}
+        />
       </div>
     );
   }
