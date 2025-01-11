@@ -110,7 +110,7 @@ const Index = () => {
   if (!category && !searchQuery) {
     return (
       <div>
-        <WelcomeSection storeName={state.store?.name} />
+        <WelcomeSection storeName={store?.name} />
       </div>
     );
   }
