@@ -13,12 +13,20 @@ interface Product {
   description?: string;
 }
 
+interface Store {
+  id: number;
+  name: string;
+  email: string;
+  store_type_id: number;
+}
+
 interface State {
   cart: Product[];
   isCartOpen: boolean;
   isSidebarOpen: boolean;
   currentCategory: Category | null;
   selectedCategory: Category | null;
+  store: Store | null;
 }
 
 type Action =
@@ -27,7 +35,8 @@ type Action =
   | { type: 'TOGGLE_CART' }
   | { type: 'TOGGLE_SIDEBAR' }
   | { type: 'SET_CURRENT_CATEGORY'; payload: Category | null }
-  | { type: 'SET_SELECTED_CATEGORY'; payload: Category | null };
+  | { type: 'SET_SELECTED_CATEGORY'; payload: Category | null }
+  | { type: 'SET_STORE'; payload: Store | null };
 
 const initialState: State = {
   cart: [],
@@ -35,6 +44,7 @@ const initialState: State = {
   isSidebarOpen: false,
   currentCategory: null,
   selectedCategory: null,
+  store: null,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -90,6 +100,11 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         selectedCategory: action.payload,
+      };
+    case 'SET_STORE':
+      return {
+        ...state,
+        store: action.payload,
       };
     default:
       return state;

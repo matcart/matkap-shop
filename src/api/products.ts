@@ -3,22 +3,6 @@ import { Product } from "@/types/product";
 import { MOCK_PRODUCTS } from "@/constants/mockProducts";
 
 export const getProducts = async (categoryId?: string, searchQuery?: string): Promise<Product[]> => {
-  // First get the store information based on subdomain
-  const getSubdomain = () => {
-    const hostname = window.location.hostname;
-    if (hostname.includes('matkap.se')) {
-      const subdomain = hostname.split('.')[0];
-      return subdomain;
-    }
-    return 'icademo';
-  };
-
-  const { data: store } = await supabase
-    .from('stores')
-    .select('*')
-    .eq('sub_domain', getSubdomain())
-    .single();
-
   const query = supabase.from('products').select('*');
 
   if (categoryId) {
