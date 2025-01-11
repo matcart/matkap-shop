@@ -7,6 +7,7 @@ export interface Product {
   pricePerUnit: string;
   image: string;
   quantity: number;
+  description?: string;
 }
 
 export interface ProductResponse {
@@ -23,4 +24,5 @@ export interface ProductResponse {
   image: {
     url: string;
   };
+  description?: string;
 }

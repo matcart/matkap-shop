@@ -28,10 +28,10 @@ const CategoryList = ({
 
   const handleCategoryClick = (category: Category) => {
     if (!category.children || category.children.length === 0) {
-      // If it's a leaf category, show products immediately
+      // If it's a leaf category, only show products without changing sidebar state
       navigate(`/?category=${category.id}&view=all`);
     } else {
-      // Otherwise just navigate to the category for browsing
+      // For non-leaf categories, update the sidebar navigation
       onCategoryClick(category.id);
     }
   };

@@ -68,7 +68,7 @@ const Index = () => {
       const { data, error } = await query;
       if (error) throw error;
 
-      return (data as ProductResponse[]).map(product => ({
+      return data.map((product: any): Product => ({
         id: product.product_id,
         name: product.name,
         price: product.price?.amount ? Number(product.price.amount) : 0,
@@ -76,7 +76,8 @@ const Index = () => {
         volume: product.size?.text || '',
         pricePerUnit: product.price?.comparisonPrice || '',
         image: product.image?.url || '',
-        quantity: 1
+        quantity: 1,
+        description: product.description
       }));
     },
   });
@@ -109,7 +110,7 @@ const Index = () => {
   if (!category && !searchQuery) {
     return (
       <div>
-        <WelcomeSection storeName={store?.name} />
+        <WelcomeSection storeName={state.store?.name} />
       </div>
     );
   }
