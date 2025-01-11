@@ -9,3 +9,9 @@ export interface Category {
 export interface CategoriesMap {
   [key: string]: Category;
 }
+
+export interface CategoryResponse {
+  id: string;
+  name: string;
+  parent_id: string | null;
+}
