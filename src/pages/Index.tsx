@@ -34,7 +34,7 @@ const Index = () => {
     queryFn: getCategories
   });
 
-  const { data: products = [] } = useQuery({
+  const { data: products = [], isLoading: isLoadingProducts } = useQuery({
     queryKey: ['products', selectedCategory?.id],
     queryFn: () => getProducts(selectedCategory?.id),
     enabled: !!selectedCategory
@@ -68,7 +68,7 @@ const Index = () => {
         categoryHierarchy={categoryHierarchy}
         currentCategory={selectedCategory}
       />
-      <ProductGrid products={products} />
+      <ProductGrid products={products} isLoading={isLoadingProducts} />
     </div>
   );
 };

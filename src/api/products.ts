@@ -1,5 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
-import { Product, ProductResponse } from "@/types/product";
+import { Product } from "@/types/product";
 
 export const getProducts = async (categoryId?: string): Promise<Product[]> => {
   const query = supabase.from('products').select('*');
@@ -14,12 +14,20 @@ export const getProducts = async (categoryId?: string): Promise<Product[]> => {
   return data.map((product): Product => ({
     id: product.product_id,
     name: product.name,
-    price: product.price?.amount ? Number(product.price.amount) : 0,
-    brand: product.brand || '',
-    volume: product.size?.text || '',
-    pricePerUnit: product.price?.comparisonPrice || '',
-    image: product.image?.url || '',
+    price: product.price && typeof product.price === 'object' && 'amount' in product.price 
+      ? Number(product.price.amount) 
+      : 0,
+    brand: '',
+    volume: product.size && typeof product.size === 'object' && 'text' in product.size 
+      ? product.size.text as string 
+      : '',
+    pricePerUnit: product.price && typeof product.price === 'object' && 'comparisonPrice' in product.price 
+      ? product.price.comparisonPrice as string 
+      : '',
+    image: product.image && typeof product.image === 'object' && 'url' in product.image 
+      ? product.image.url as string 
+      : '',
     quantity: 1,
-    description: product.description,
+    description: '',
   }));
 };
