@@ -7,7 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from "./components/Layout/Header";
 import CategorySidebar from "./components/Layout/CategorySidebar";
 import Cart from "./components/Cart/Cart";
-import Index from "./pages";
+import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 
 const queryClient = new QueryClient();

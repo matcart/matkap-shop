@@ -20,6 +20,12 @@ const CategoryList = ({
   const navigate = useNavigate();
   const categories = currentCategory ? currentCategory.children : rootCategories;
 
+  const handleViewAll = () => {
+    if (currentCategory) {
+      navigate(`/?category=${currentCategory.id}&view=all`);
+    }
+  };
+
   const handleCategoryClick = (category: Category) => {
     if (!category.children || category.children.length === 0) {
       // If it's a leaf category, only show products without changing sidebar state
