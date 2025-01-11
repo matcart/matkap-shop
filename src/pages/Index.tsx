@@ -62,7 +62,7 @@ const Index = () => {
   if (!selectedCategory && !searchQuery) {
     return (
       <div>
-        <WelcomeSection storeName="ICA" />
+        <WelcomeSection />
       </div>
     );
   }
