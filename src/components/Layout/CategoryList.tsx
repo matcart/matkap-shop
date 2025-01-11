@@ -19,13 +19,15 @@ const CategoryList = ({
   const handleViewAll = () => {
     if (currentCategory) {
       dispatch({ type: 'SET_SELECTED_CATEGORY', payload: currentCategory });
+      dispatch({ type: 'TOGGLE_SIDEBAR' });
     }
   };
 
   const handleCategoryClick = (category: Category) => {
     if (!category.children || category.children.length === 0) {
-      // If it's a leaf category, set it as selected category
+      // If it's a leaf category, set it as selected category and close sidebar
       dispatch({ type: 'SET_SELECTED_CATEGORY', payload: category });
+      dispatch({ type: 'TOGGLE_SIDEBAR' });
     } else {
       // For non-leaf categories, update the current category for navigation
       dispatch({ type: 'SET_CURRENT_CATEGORY', payload: category });
