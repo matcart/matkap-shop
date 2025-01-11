@@ -9,7 +9,7 @@ import Breadcrumbs from '@/components/BreadCrumbs';
 import { getProducts } from '@/api/products';
 import { getCategories } from '@/api/categories';
 import { useStore } from '@/contexts/StoreContext';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const getCategoryHierarchy = (categoryId: string, categoriesMap: Record<string, Category>): Category[] => {
   const hierarchy: Category[] = [];
@@ -25,9 +25,17 @@ const getCategoryHierarchy = (categoryId: string, categoriesMap: Record<string, 
 
 const Index = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const searchQuery = searchParams.get('search');
   const { state } = useStore();
   const { selectedCategory } = state;
+
+  // Clear search when category is selected
+  React.useEffect(() => {
+    if (selectedCategory && searchQuery) {
+      navigate('/', { replace: true });
+    }
+  }, [selectedCategory, searchQuery, navigate]);
 
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
