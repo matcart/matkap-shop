@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Search, X, ShoppingCart } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from '@tanstack/react-query';
+import { Skeleton } from "../ui/skeleton";
 
 interface Store {
   id: number;
@@ -30,7 +31,7 @@ const Header = () => {
     return 'icademo';
   };
 
-  const { data: store } = useQuery({
+  const { data: store, isLoading } = useQuery({
     queryKey: ['store', getSubdomain()],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -66,7 +67,11 @@ const Header = () => {
           <div className="flex items-center gap-4 absolute left-1/2 -translate-x-1/2 lg:static lg:transform-none">
             <Link to="/" className="flex items-center">
               <img src="/assets/icons/ica_logo.svg" alt="ICA" className="h-[22px]" />
-              <span className="text-[#222222] font-medium ml-4">{store?.name || 'Loading...'}</span>
+              {isLoading ? (
+                <Skeleton className="h-[20px] w-[120px] ml-4" />
+              ) : (
+                <span className="text-[#222222] font-medium ml-4">{store?.name}</span>
+              )}
             </Link>
           </div>
 

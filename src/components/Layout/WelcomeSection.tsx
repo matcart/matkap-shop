@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
+import { Skeleton } from "../ui/skeleton";
 
 interface Store {
   id: number;
@@ -18,7 +19,7 @@ const WelcomeSection = () => {
     return 'icademo';
   };
 
-  const { data: store } = useQuery({
+  const { data: store, isLoading } = useQuery({
     queryKey: ['store', getSubdomain()],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -46,9 +47,13 @@ const WelcomeSection = () => {
           <h2 className="text-ica-red text-base font-semibold mb-2">
             Välkommen till
           </h2>
-          <h1 className="text-[25px] font-semibold text-gray-900">
-            {store?.name || 'Loading...'}
-          </h1>
+          {isLoading ? (
+            <Skeleton className="h-[30px] w-[200px]" />
+          ) : (
+            <h1 className="text-[25px] font-semibold text-gray-900">
+              {store?.name}
+            </h1>
+          )}
         </div>
       </div>
     </div>
