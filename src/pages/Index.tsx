@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import ProductGrid from '@/components/Products/ProductGrid';
 import SearchResults from '@/components/Search/SearchResults';
@@ -10,6 +10,7 @@ import { getProducts } from '@/api/products';
 import { getCategories } from '@/api/categories';
 import { useStore } from '@/contexts/StoreContext';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { MOCK_PRODUCTS } from '@/constants';
 
 const getCategoryHierarchy = (categoryId: string, categoriesMap: Record<string, Category>): Category[] => {
   const hierarchy: Category[] = [];
@@ -27,15 +28,30 @@ const Index = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const searchQuery = searchParams.get('search');
-  const { state } = useStore();
+  const { state, dispatch } = useStore();
   const { selectedCategory } = state;
+  const [mockedProducts, setMockedProducts] = useState([])
 
   // Clear search when category is selected
   React.useEffect(() => {
-    if (selectedCategory && searchQuery) {
+    if (selectedCategory) {
       navigate('/', { replace: true });
     }
-  }, [selectedCategory, searchQuery, navigate]);
+
+    if (selectedCategory && selectedCategory.name === 'Frukt & Grönt') {
+      console.log("HERE")
+      setMockedProducts(MOCK_PRODUCTS)
+    } else {
+      setMockedProducts([])
+    }
+  }, [selectedCategory, navigate]);
+
+  // Clear category when searching
+  React.useEffect(() => {
+    if (searchQuery) {
+      dispatch({ type: 'SET_SELECTED_CATEGORY', payload: null })
+    }
+  }, [searchQuery, navigate]);
 
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
@@ -55,8 +71,8 @@ const Index = () => {
   });
 
   const { categoriesMap } = generateCategoriesMap(categories);
-  const categoryHierarchy = selectedCategory 
-    ? getCategoryHierarchy(selectedCategory.id, categoriesMap) 
+  const categoryHierarchy = selectedCategory
+    ? getCategoryHierarchy(selectedCategory.id, categoriesMap)
     : [];
 
   if (!selectedCategory && !searchQuery) {
@@ -71,9 +87,9 @@ const Index = () => {
   if (searchQuery) {
     return (
       <div className="px-[39px]">
-        <SearchResults 
-          searchQuery={searchQuery} 
-          products={searchResults} 
+        <SearchResults
+          searchQuery={searchQuery}
+          products={searchResults}
           isLoading={isLoadingSearch}
         />
       </div>
@@ -88,8 +104,8 @@ const Index = () => {
         categoryHierarchy={categoryHierarchy}
         currentCategory={selectedCategory}
       />
-      <ProductGrid 
-        products={categoryProducts} 
+      <ProductGrid
+        products={mockedProducts}
         isLoading={isLoadingCategoryProducts}
         selectedCategory={selectedCategory}
       />
